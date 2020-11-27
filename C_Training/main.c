@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include "T01_Struktura_na_programite.h"
 
 int main()
 {
-    printf("Hello world!\n\n");
+    zadaca01_05();
 
     return 0;
 }
