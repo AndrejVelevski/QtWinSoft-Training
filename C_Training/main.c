@@ -6,6 +6,7 @@
 #include "T05_Vlezno_izlezni_naredbi.h"
 #include "T06_Funkcii.h"
 #include "T07_Nizi.h"
+#include "T08_Domasno.h"
 
 /*
     zadaca01_01, ... , zadaca01_06
@@ -16,11 +17,12 @@
     zadaca05_01, zadaca05_02
     zadaca06_01, ... , zadaca06_07
     zadaca07_01, ... , zadaca07_06
+    zadaca08_01, ... , zadaca08_14
 */
 
 int main()
 {
-    zadaca07_06();
+    zadaca08_14();
 
     return 0;
 }
