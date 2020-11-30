@@ -8,6 +8,7 @@
 #include "T07_Nizi.h"
 #include "T08_Domasno.h"
 #include "T09_Pokazuvaci.h"
+#include "T10_Rabota_so_stringovi.h"
 
 /*
     zadaca01_01, ... , zadaca01_06
@@ -20,11 +21,13 @@
     zadaca07_01, ... , zadaca07_06
     zadaca08_01, ... , zadaca08_14
     zadaca09_01, ... , zadaca09_03
+    zadaca10_01, ... , zadaca10_03
+
 */
 
 int main()
 {
-    zadaca09_03();
+    zadaca10_03();
 
     return 0;
 }

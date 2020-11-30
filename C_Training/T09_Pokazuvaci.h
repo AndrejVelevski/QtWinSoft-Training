@@ -365,6 +365,8 @@ void avgOcena(int* grades, int numStudents, int numGrades)
 
 void zadaca09_03()
 {
+    srand(time(NULL));
+
     const int numStudents = 6;
     const int numGrades = 5;
 
