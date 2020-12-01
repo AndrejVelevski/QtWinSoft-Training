@@ -178,8 +178,6 @@ void morseToEnglish(char* string)
         else if (strcmp(token, "..--..") == 0) printf("?");
         else if (strcmp(token, "----")   == 0) printf(" ");
 
-        //printf("N%sN\n", token);
-
         token = strtok(NULL, " ");
     }
     printf("\n");

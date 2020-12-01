@@ -1,7 +1,7 @@
 #ifndef T03_OSNOVNI_TIPOVI_NA_PODTOCI_H
 #define T03_OSNOVNI_TIPOVI_NA_PODTOCI_H
 
-#include<stdio.h>
+#include <stdio.h>
 
 void zadaca03_01()
 {
