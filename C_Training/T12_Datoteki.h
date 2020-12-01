@@ -296,11 +296,10 @@ void printNumberToString(long number)
             printf("\n");
             canIncrement = 1;
         }
-
     }
 }
 
-void zadaca()
+void zadaca12_02()
 {
     char str[8];
     printf("Vnesete 7 bukvi: ");

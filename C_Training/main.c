@@ -11,6 +11,7 @@
 #include "T10_Rabota_so_stringovi.h"
 #include "T11_Bitski_operatori.h"
 #include "T12_Datoteki.h"
+#include "T13_Strukturi_i_unii.h"
 
 /*
     zadaca01_01, ... , zadaca01_06
@@ -25,11 +26,12 @@
     zadaca10_01, ... , zadaca10_03
     zadaca11_01, ... , zadaca11_04
     zadaca12_01, ... , zadaca12_02
+    zadaca13_01, ... , zadaca13_01
 */
 
 int main()
 {
-    zadaca();
+    zadaca13_01();
 
     return 0;
 }

@@ -187,8 +187,12 @@ void sortEmployees(Employee* employees, int size, unsigned member)
         int minIdx = i;
 
         for (int j=i+1;j<size;++j)
-            if (*((unsigned*)(&employees[j])+member/4) < *((unsigned*)(&employees[minIdx])+member/4))
+        {
+            unsigned* val1 = (void*)&employees[j]+member;
+            unsigned* val2 = (void*)&employees[minIdx]+member;
+            if (*val1 < *val2)
                 minIdx = j;
+        }
 
         Employee temp = employees[i];
         employees[i] = employees[minIdx];
