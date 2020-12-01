@@ -139,7 +139,48 @@ Employee createEmployee(unsigned id, const char* name, const char* surname, unsi
     return e;
 }
 
-void sortEmployees(Employee*  employees, int size, unsigned member)
+Employee getEmployeeData(int id)
+{
+    char name[15];
+    char surname[15];
+    unsigned age;
+    unsigned gender;
+    unsigned credibility;
+    char address[30];
+    unsigned currentSalary;
+    unsigned previousSalary;
+    printf("Enter name: "); scanf(" %[^\n]%*c", name);
+    printf("Enter surname: "); scanf(" %[^\n]%*c", surname);
+    printf("Enter age: "); scanf("%u", &age);
+    printf("Enter gender(0 - female, 1 - male): "); scanf("%d", &gender);
+    printf("Enter credibility: "); scanf("%u", &credibility);
+    printf("Enter address: "); scanf(" %[^\n]%*c", address);
+    printf("Enter current salary: "); scanf("%u", &currentSalary);
+    printf("Enter previous salary: "); scanf("%u", &previousSalary);
+
+    return createEmployee(id, name, surname, age, gender, credibility,
+                          address, currentSalary, previousSalary);
+}
+
+void editCredibility(Employee* employees, int size)
+{
+    for (int i=0;i<size;++i)
+    {
+        Employee* e = &employees[i];
+        if (e->currentSalary > e->previousSalary)
+        {
+            e->credibility += 3;
+            e->previousSalary = e->currentSalary;
+        }
+        else if (e->currentSalary < e->previousSalary)
+        {
+            e->credibility -= 3;
+            e->currentSalary = e->previousSalary;
+        }
+    }
+}
+
+void sortEmployees(Employee* employees, int size, unsigned member)
 {
     for (int i=0;i<size;++i)
     {
@@ -171,15 +212,17 @@ void zadaca11_04()
     {
         int input;
         printf("___________________________________________\n"
-               "0 - Exit\n"
-               "1 - Print all employees\n"
-               "2 - Add new employee\n"
-               "3 - Sort by id\n"
-               "4 - Sort by age\n"
-               "5 - Sort by gender\n"
-               "6 - Sort by credibility\n"
-               "7 - Sort by current salary\n"
-               "8 - Sort by previous salary\n"
+               " 0 - Exit\n"
+               " 1 - Print all employees\n"
+               " 2 - Add new employee\n"
+               " 3 - Sort by id\n"
+               " 4 - Sort by age\n"
+               " 5 - Sort by gender\n"
+               " 6 - Sort by credibility\n"
+               " 7 - Sort by current salary\n"
+               " 8 - Sort by previous salary\n"
+               " 9 - Edit employee\n"
+               "10 - Edit credibility\n"
                "Input: ");
         scanf("%d", &input);
 
@@ -195,25 +238,7 @@ void zadaca11_04()
                 break;
             case 2:
             {
-                char name[15];
-                char surname[15];
-                unsigned age;
-                unsigned gender;
-                unsigned credibility;
-                char address[30];
-                unsigned currentSalary;
-                unsigned previousSalary;
-                printf("Enter name: "); scanf(" %[^\n]%*c", name);
-                printf("Enter surname: "); scanf(" %[^\n]%*c", surname);
-                printf("Enter age: "); scanf("%u", &age);
-                printf("Enter gender(0 - female, 1 - male): "); scanf("%d", &gender);
-                printf("Enter credibility: "); scanf("%u", &credibility);
-                printf("Enter address: "); scanf(" %[^\n]%*c", address);
-                printf("Enter current salary: "); scanf("%u", &currentSalary);
-                printf("Enter previous salary: "); scanf("%u", &previousSalary);
-
-                employees[id] = createEmployee(id, name, surname, age, gender, credibility,
-                                                 address, currentSalary, previousSalary);
+                employees[id] = getEmployeeData(id);
                 ++id;
                 break;
             }
@@ -234,6 +259,20 @@ void zadaca11_04()
                 break;
             case 8:
                 sortEmployees(employees, id, offsetof(Employee, previousSalary));
+                break;
+            case 9:
+            {
+                int editId;
+                printf("Please enter ID of employee 0-%d: ", id-1);
+                scanf("%d", &editId);
+
+                if (editId >= 0 && editId < id)
+                    employees[editId] = getEmployeeData(editId);
+
+                break;
+            }
+            case 10:
+                editCredibility(employees, id);
                 break;
 
         }

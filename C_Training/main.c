@@ -10,6 +10,7 @@
 #include "T09_Pokazuvaci.h"
 #include "T10_Rabota_so_stringovi.h"
 #include "T11_Bitski_operatori.h"
+#include "T12_Datoteki.h"
 
 /*
     zadaca01_01, ... , zadaca01_06
@@ -23,11 +24,12 @@
     zadaca09_01, ... , zadaca09_03
     zadaca10_01, ... , zadaca10_03
     zadaca11_01, ... , zadaca11_04
+    zadaca12_01, ... , zadaca12_02
 */
 
 int main()
 {
-    zadaca11_04();
+    zadaca();
 
     return 0;
 }
