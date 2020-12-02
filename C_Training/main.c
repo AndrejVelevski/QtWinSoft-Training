@@ -12,6 +12,7 @@
 #include "T11_Bitski_operatori.h"
 #include "T12_Datoteki.h"
 #include "T13_Strukturi_i_unii.h"
+#include "T14_Dinamichka_alokacija_na_memorija.h"
 
 /*
     zadaca01_01, ... , zadaca01_06
@@ -27,11 +28,12 @@
     zadaca11_01, ... , zadaca11_04
     zadaca12_01, ... , zadaca12_02
     zadaca13_01, ... , zadaca13_01
+    zadaca14_01, ... , zadaca14_04
 */
 
 int main()
 {
-    zadaca13_01();
+    zadaca14_03();
 
     return 0;
 }
