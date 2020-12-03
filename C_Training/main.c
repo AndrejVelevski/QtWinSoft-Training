@@ -33,7 +33,7 @@
 
 int main()
 {
-    zadaca14_03();
+    zadaca14_04();
 
     return 0;
 }
