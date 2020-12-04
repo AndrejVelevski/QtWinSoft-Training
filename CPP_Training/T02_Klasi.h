@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <iostream>
 #include <cstring>
+#include <sstream>
 
 class Kvadar
 {
@@ -352,4 +353,524 @@ void zadaca02_02()
     std::cout << std::endl;
 }
 
+class Fraction
+{
+private:
+    int mNumerator;
+    int mDenominator;
+
+    int GCD(int num1, int num2)
+    {
+        while(1)
+        {
+            if (num2 == 0)
+                return num1;
+
+            int temp = num1%num2;
+            num1 = num2;
+            num2 = temp;
+        }
+    }
+
+    int LCM(int num1, int num2)
+    {
+        return (num1 * num2) / GCD(num1, num2);
+    }
+
+public:
+    Fraction(int numerator, int denominator) :
+        mNumerator(numerator),
+        mDenominator(denominator)
+    {
+
+    }
+
+    Fraction& reduce()
+    {
+        int gcd = GCD(mNumerator, mDenominator);
+        mNumerator /= gcd;
+        mDenominator /= gcd;
+        return *this;
+    }
+
+    Fraction operator+(const Fraction& f)
+    {
+        int d = LCM(mDenominator, f.mDenominator);
+        int n = (d/mDenominator)*mNumerator + (d/f.mDenominator)*f.mNumerator;
+        return Fraction(n, d).reduce();
+    }
+
+    Fraction operator-(const Fraction& f)
+    {
+        int d = LCM(mDenominator, f.mDenominator);
+        int n = (d/mDenominator)*mNumerator - (d/f.mDenominator)*f.mNumerator;
+        return Fraction(n, d).reduce();
+    }
+
+    Fraction operator*(const Fraction& f)
+    {
+        return Fraction(mNumerator * f.mNumerator, mDenominator * f.mDenominator).reduce();
+    }
+
+    Fraction operator/(const Fraction& f)
+    {
+        return Fraction(mNumerator * f.mDenominator, mDenominator * f.mNumerator).reduce();
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Fraction& f)
+    {
+        return os << f.mNumerator << "/" << f.mDenominator;
+    }
+
+    double real()
+    {
+        return (double)mNumerator / mDenominator;
+    }
+};
+
+void zadaca02_03()
+{
+    srand(time(NULL));
+
+    int num;
+
+    std::cout << "Vnesete broj na simulacii na dropki: ";
+    std::cin >> num;
+
+    for (int i=0;i<num;++i)
+    {
+        int n1, d1, n2, d2;
+
+        while(true)
+        {
+            n1 = rand()%198-99;
+            n2 = rand()%198-99;
+            d1 = rand()%198-99;
+            d2 = rand()%198-99;
+
+            if (d1 != 0 && d2 !=0)
+                break;
+        }
+
+        Fraction f1(n1, d1);
+        Fraction f2(n2, d2);
+
+        std::cout << f1 << " + " << f2 << " = " << f1+f2 << " = " << (f1+f2).real() << " = " << (double)n1/d1 + (double)n2/d2 << std::endl;
+        std::cout << f1 << " - " << f2 << " = " << f1-f2 << " = " << (f1-f2).real() << " = " << (double)n1/d1 - (double)n2/d2 << std::endl;
+        std::cout << f1 << " * " << f2 << " = " << f1*f2 << " = " << (f1*f2).real() << " = " << ((double)n1/d1) * ((double)n2/d2) << std::endl;
+        std::cout << f1 << " / " << f2 << " = " << f1/f2 << " = " << (f1/f2).real() << " = " << ((double)n1/d1) / ((double)n2/d2) << std::endl;
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
+class Datum
+{
+private:
+    int den;
+    int godina;
+    int mesec;
+
+public:
+    Datum() {}
+
+    Datum(int den, int mesec, int godina)
+    {
+        this->den = den;
+        this->mesec = mesec;
+        this->godina = godina;
+    }
+
+    static bool isLeapYear(int year)
+    {
+        if (year % 4 == 0)
+        {
+            if (year % 100 == 0)
+            {
+                if (year % 400 == 0)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return true;
+        }
+        else
+            return false;
+    }
+
+    static int daysOfMonth(int month, int year)
+    {
+        switch (month)
+        {
+            case 1: return 31;
+            case 2: return isLeapYear(year)?29:28;
+            case 3: return 31;
+            case 4: return 30;
+            case 5: return 31;
+            case 6: return 30;
+            case 7: return 31;
+            case 8: return 31;
+            case 9: return 30;
+            case 10: return 31;
+            case 11: return 30;
+            case 12: return 31;
+        }
+        return -1;
+    }
+
+    static int days(const Datum& d)
+    {
+        int day = 0;
+        for (int i=1;i<d.godina;++i)
+        {
+            if (isLeapYear(i))
+                day += 366;
+            else
+                day += 365;
+        }
+
+        for (int i=1;i<d.mesec;++i)
+            day += daysOfMonth(i, d.godina);
+
+        day += d.den;
+
+        return day;
+    }
+
+    static Datum getDatum(int days)
+    {
+        int d = 1;
+        int m = 1;
+        int y = 1;
+
+        while(true)
+        {
+            if (isLeapYear(y))
+            {
+                if (days >= 366)
+                {
+                    days -= 366;
+                    ++y;
+                }
+                else
+                    break;
+            }
+            else
+            {
+                if (days >= 365)
+                {
+                    days -= 365;
+                    ++y;
+                }
+                else
+                    break;
+            }
+        }
+
+        while(true)
+        {
+            int dim = daysOfMonth(m, y);
+
+            if (days >= dim)
+            {
+                days -= dim;
+                ++m;
+            }
+            else
+                break;
+        }
+
+        d = days;
+
+        return Datum(d, m, y);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Datum& d)
+    {
+        std::stringstream ss;
+        ss << d.den << "." << d.mesec << "." << d.godina;
+        return os << ss.str();
+    }
+
+    friend std::istream& operator>>(std::istream& is, Datum& d)
+    {
+        return is >> d.den >> d.mesec >> d.godina;
+    }
+};
+
+class Zivotno
+{
+private:
+    Datum ragjanje;
+    Datum donesuvanje;
+    char tip;
+    char pol;
+    char ime[15];
+    Datum vakcina;
+
+public:
+    char getTip()
+    {
+        return tip;
+    }
+
+    Datum getVakcina()
+    {
+        return vakcina;
+    }
+
+public:
+    Zivotno(const Datum& ragjanje, const Datum& donesuvanje, char tip, char pol, const char* ime, const Datum& vakcina)
+    {
+        this->ragjanje = ragjanje;
+        this->donesuvanje = donesuvanje;
+        this->tip = tip;
+        this->pol = pol;
+        std::strcpy(this->ime, ime);
+        this->vakcina = vakcina;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Zivotno& z)
+    {
+        return os << std::setw(15) << std::left << z.ragjanje
+                  << std::setw(15) << std::left << z.donesuvanje
+                  << std::setw(5) << std::left << z.tip
+                  << std::setw(5) << std::left << z.pol
+                  << std::setw(20) << std::left << z.ime
+                  << std::setw(15) << std::left << z.vakcina;
+    }
+
+    static void printHeader()
+    {
+        std::cout << std::setw(15) << std::left << "Ragjanje"
+                  << std::setw(15) << std::left << "Donesuvanje"
+                  << std::setw(5) << std::left << "Tip"
+                  << std::setw(5) << std::left << "Pol"
+                  << std::setw(20) << std::left << "Ime"
+                  << std::setw(15) << std::left << "Vakcina" << std::endl;
+    }
+};
+
+class Zooloska
+{
+private:
+    Zivotno** zivotni;
+    int brojZivotni;
+
+public:
+    Zooloska()
+    {
+        brojZivotni = 0;
+        zivotni = new Zivotno*[1000];
+
+    }
+
+    ~Zooloska()
+    {
+        for (int i=0;i<brojZivotni;++i)
+            delete zivotni[i];
+        delete[] zivotni;
+    }
+
+    Zooloska(const Zooloska& z) = delete;
+    Zooloska& operator=(const Zooloska& z) = delete;
+
+    void dodadiZivotno(Zivotno* z)
+    {
+        zivotni[brojZivotni++] = z;
+    }
+
+    void pecatiBrojZivotni()
+    {
+        std::cout << "Broj na zivotni: " << brojZivotni << std::endl;
+    }
+
+    void pecatiSiteZivotni()
+    {
+        if (brojZivotni > 0)
+        {
+            Zivotno::printHeader();
+            for (int i=0;i<brojZivotni;++i)
+            {
+                Zivotno* z = zivotni[i];
+                std::cout << *z << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Nema nitu edno zivotno vo zooloskata" << std::endl;
+        }
+    }
+
+    void pecatiZivotniGrupa()
+    {
+        char grupa;
+
+        std::cout << "Vnesete grupa: (c-cicaci, v-vlekaci, p-ptici): ";
+        std::cin >> grupa;
+
+        if (brojZivotni > 0)
+        {
+            Zivotno::printHeader();
+            for (int i=0;i<brojZivotni;++i)
+            {
+                Zivotno* z = zivotni[i];
+                if (z->getTip() == grupa)
+                    std::cout << *z << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Nema nitu edno zivotno vo zooloskata" << std::endl;
+        }
+    }
+
+    void pecatiZivotniVakcinacija()
+    {
+        if (brojZivotni > 0)
+        {
+            Datum d;
+            std::cout << "Vnesete denesen datum (dd mm yyyy): ";
+            std::cin >> d;
+
+            Zivotno::printHeader();
+            for (int i=0;i<brojZivotni;++i)
+            {
+                Zivotno* z = zivotni[i];
+
+                int daysDate = Datum::days(d);
+                int daysVak = Datum::days(z->getVakcina());
+
+                switch (z->getTip())
+                {
+                    case 'c':
+                    {
+                        if ((daysDate - daysVak) - 365 - 7 <= 0)
+                            std::cout << *z << std::endl;
+                        break;
+                    }
+                    case 'v':
+                    {
+                        if ((daysDate - daysVak) - 243 - 7 <= 0)
+                            std::cout << *z << std::endl;
+                        break;
+                    }
+                    case 'p':
+                    {
+                        if ((daysDate - daysVak) - 182 - 7 <= 0)
+                            std::cout << *z << std::endl;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            std::cout << "Nema nitu edno zivotno vo zooloskata" << std::endl;
+        }
+    }
+
+    void novoZivotno()
+    {
+        Datum ragjanje;
+        Datum donesuvanje;
+        char tip;
+        char pol;
+        char ime[15];
+        Datum vakcinacija;
+
+        std::cout << "Vnesete datum na ragjanje (dd mm yyyy): ";
+        std::cin >> ragjanje;
+        std::cout << "Vnesete datum na donesuvanje (dd mm yyyy): ";
+        std::cin >> donesuvanje;
+        std::cout << "Vnesete tip (c-cicaci, v-vlekaci, p-ptici): ";
+        std::cin >> tip;
+        std::cout << "Vnesete pol (m-masko, z-zensko): ";
+        std::cin >> pol;
+        std::cout << "Vnesete pol ime: ";
+        std::cin >> ime;
+        std::cout << "Vnesete datum na posledna vakcinacija (dd mm yyyy): ";
+        std::cin >> vakcinacija;
+
+        dodadiZivotno(new Zivotno(ragjanje, donesuvanje, tip, pol, ime, vakcinacija));
+    }
+};
+
+void zadaca()
+{
+    Zooloska zoo;
+    zoo.dodadiZivotno(new Zivotno(Datum(13, 6, 2020), Datum(18, 8, 2020), 'c', 'm',     "Foka", Datum(27, 7, 2020)));
+    zoo.dodadiZivotno(new Zivotno(Datum( 2, 7, 2020), Datum(18, 8, 2020), 'p', 'z',     "Orel", Datum(23, 8, 2020)));
+    zoo.dodadiZivotno(new Zivotno(Datum( 8, 2, 2020), Datum(18, 8, 2020), 'v', 'z',    "Zmija", Datum( 4, 3, 2020)));
+    zoo.dodadiZivotno(new Zivotno(Datum(24, 1, 2020), Datum(18, 8, 2020), 'c', 'z',    "Tigar", Datum(13, 2, 2020)));
+    zoo.dodadiZivotno(new Zivotno(Datum(28, 3, 2020), Datum(18, 8, 2020), 'p', 'm',      "Buv", Datum( 8, 4, 2020)));
+    zoo.dodadiZivotno(new Zivotno(Datum(16, 3, 2020), Datum(18, 8, 2020), 'v', 'm', "Krokodil", Datum(16, 4, 2020)));
+
+    while(true)
+    {
+        std::cout << "__________________________________________________________________" << std::endl;
+        std::cout << "1 - Dodadi zivotno" << std::endl;
+        std::cout << "2 - Prikazi broj na zivotni" << std::endl;
+        std::cout << "3 - Prikazi zivotni od dadena grupa (c-cicaci, v-vlekaci, p-ptici)" << std::endl;
+        std::cout << "4 - Prikazi cela lista na zivotni" << std::endl;
+        std::cout << "5 - Prikazi zivotni koi treba da se vakciniraat vo rok od 1 nedela" << std::endl;
+        std::cout << "6 - Izlez" << std::endl;
+        std::cout << "Opcija: ";
+        int opcija;
+        std::cin >> opcija;
+
+        if (opcija == 6)
+            break;
+
+        switch(opcija)
+        {
+            case 1: zoo.novoZivotno(); break;
+            case 2: zoo.pecatiBrojZivotni(); break;
+            case 3: zoo.pecatiZivotniGrupa(); break;
+            case 4: zoo.pecatiSiteZivotni(); break;
+            case 5: zoo.pecatiZivotniVakcinacija(); break;
+        }
+    }
+
+    std::cout << std::endl;
+
+}
+
 #endif // T02_KLASI_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

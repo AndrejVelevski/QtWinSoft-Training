@@ -8,7 +8,7 @@
 
 int main()
 {
-    zadaca02_02();
+    zadaca();
 
     return 0;
 }
