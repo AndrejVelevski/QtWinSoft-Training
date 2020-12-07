@@ -798,7 +798,7 @@ public:
     }
 };
 
-void zadaca()
+void zadaca02_04()
 {
     Zooloska zoo;
     zoo.dodadiZivotno(new Zivotno(Datum(13, 6, 2020), Datum(18, 8, 2020), 'c', 'm',     "Foka", Datum(27, 7, 2020)));
@@ -839,38 +839,3 @@ void zadaca()
 }
 
 #endif // T02_KLASI_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
