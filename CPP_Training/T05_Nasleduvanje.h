@@ -572,7 +572,7 @@ public:
     }
 };
 
-void zadaca()
+void zadaca05_02()
 {
     Prodavnica prodavnica;
 
@@ -600,7 +600,6 @@ void zadaca()
         {
             break;
         }
-
 
         switch (opcija)
         {
