@@ -294,9 +294,9 @@ public:
     ~Matrix()
     {
         for (int i=0;i<mRows;++i)
-            delete mData[i];
+            delete[] mData[i];
 
-        delete mData;
+        delete[] mData;
     }
 
     Matrix(const Matrix& m)
@@ -489,7 +489,7 @@ public:
     }
 };
 
-void zadaca()
+void zadaca04_03()
 {
     try
     {
@@ -525,6 +525,7 @@ void zadaca()
         std::cerr << e << std::endl;
     }
 
+    std::cout << std::endl;
 }
 
 #endif // T04_PREKLOPUVANJE_NA_OPERATORI_H
