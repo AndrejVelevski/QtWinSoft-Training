@@ -4,6 +4,7 @@
 #include "T04_Preklopuvanje_na_operatori.h"
 #include "T05_Nasleduvanje.h"
 #include "T06_Povekjekratno_nasleduvanje.h"
+#include "T07_Virtuelni_funkcii.h"
 
 /*
     zadaca01_01, ... , zadaca01_03
@@ -12,11 +13,12 @@
     zadaca04_01, ... , zadaca04_03
     zadaca05_01, ... , zadaca05_02
     zadaca06_01, ... , zadaca06_01
+    zadaca07_01, ... , zadaca07_01
 */
 
 int main()
 {
-    zadaca06_01();
+    zadaca07_01();
 
     return 0;
 }
