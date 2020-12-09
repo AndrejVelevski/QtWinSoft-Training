@@ -6,6 +6,7 @@
 #include "T06_Povekjekratno_nasleduvanje.h"
 #include "T07_Virtuelni_funkcii.h"
 #include "T08_Vektori_i_stringovi.h"
+#include "T09_Preprocesor.h"
 
 /*
     zadaca01_01, ... , zadaca01_03
@@ -16,11 +17,12 @@
     zadaca06_01, ... , zadaca06_01
     zadaca07_01, ... , zadaca07_01
     zadaca08_01, ... , zadaca08_01
+    zadaca09_01, ... , zadaca09_01
 */
 
 int main()
 {
-    zadaca08_01();
+    zadaca09_01();
 
     return 0;
 }
