@@ -27,6 +27,8 @@ void zadaca09_01()
               << "__DATE__ = " << __DATE__ << std::endl
               << "__TIME__ = " << __TIME__ << std::endl
               << "__TIMESTAMP__ = " << __TIMESTAMP__ << std::endl;
+
+
 #endif
 
 
