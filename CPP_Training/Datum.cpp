@@ -51,6 +51,25 @@ int Datum::daysOfMonth(int month, int year)
     return -1;
 }
 
+int Datum::days(const Datum& d)
+    {
+        int day = 0;
+        for (int i=1;i<d.godina;++i)
+        {
+            if (isLeapYear(i))
+                day += 366;
+            else
+                day += 365;
+        }
+
+        for (int i=1;i<d.mesec;++i)
+            day += daysOfMonth(i, d.godina);
+
+        day += d.den;
+
+        return day;
+    }
+
 Datum Datum::getDatum(int days)
 {
     int d = 1;
