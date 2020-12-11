@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <sstream>
+#include "Datum.h"
 
 class Profesor;
 
@@ -215,148 +216,13 @@ void zadaca05_01()
     std::cout << std::endl;
 }
 
-class Datum2
-{
-private:
-    int den;
-    int godina;
-    int mesec;
-
-public:
-    Datum2() {}
-
-    Datum2(int den, int mesec, int godina)
-    {
-        this->den = den;
-        this->mesec = mesec;
-        this->godina = godina;
-    }
-
-    static bool isLeapYear(int year)
-    {
-        if (year % 4 == 0)
-        {
-            if (year % 100 == 0)
-            {
-                if (year % 400 == 0)
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return true;
-        }
-        else
-            return false;
-    }
-
-    static int daysOfMonth(int month, int year)
-    {
-        switch (month)
-        {
-            case 1: return 31;
-            case 2: return isLeapYear(year)?29:28;
-            case 3: return 31;
-            case 4: return 30;
-            case 5: return 31;
-            case 6: return 30;
-            case 7: return 31;
-            case 8: return 31;
-            case 9: return 30;
-            case 10: return 31;
-            case 11: return 30;
-            case 12: return 31;
-        }
-        return -1;
-    }
-
-    static int days(const Datum2& d)
-    {
-        int day = 0;
-        for (int i=1;i<d.godina;++i)
-        {
-            if (isLeapYear(i))
-                day += 366;
-            else
-                day += 365;
-        }
-
-        for (int i=1;i<d.mesec;++i)
-            day += daysOfMonth(i, d.godina);
-
-        day += d.den;
-
-        return day;
-    }
-
-    static Datum2 getDatum(int days)
-    {
-        int d = 1;
-        int m = 1;
-        int y = 1;
-
-        while(true)
-        {
-            if (isLeapYear(y))
-            {
-                if (days >= 366)
-                {
-                    days -= 366;
-                    ++y;
-                }
-                else
-                    break;
-            }
-            else
-            {
-                if (days >= 365)
-                {
-                    days -= 365;
-                    ++y;
-                }
-                else
-                    break;
-            }
-        }
-
-        while(true)
-        {
-            int dim = daysOfMonth(m, y);
-
-            if (days >= dim)
-            {
-                days -= dim;
-                ++m;
-            }
-            else
-                break;
-        }
-
-        d = days;
-
-        return Datum2(d, m, y);
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Datum2& d)
-    {
-        std::stringstream ss;
-        ss << d.den << "." << d.mesec << "." << d.godina;
-        return os << ss.str();
-    }
-
-    friend std::istream& operator>>(std::istream& is, Datum2& d)
-    {
-        return is >> d.den >> d.mesec >> d.godina;
-    }
-};
-
 class Artikl
 {
 protected:
     char ime[20];
     int golemina;
     double cena;
-    Datum2 donesen;
+    Datum donesen;
 
 public:
     double getCena()
@@ -364,7 +230,7 @@ public:
         return cena;
     }
 
-    Artikl(const char* ime, int golemina, double cena, const Datum2& donesen)
+    Artikl(const char* ime, int golemina, double cena, const Datum& donesen)
     {
         std::strcpy(this->ime, ime);
         this->golemina = golemina;
@@ -398,10 +264,10 @@ public:
 
     virtual int getTip() = 0;
 
-    bool presmetaj_nabavka(const Datum2& d)
+    bool presmetaj_nabavka(const Datum& d)
     {
-        int daysDate = Datum2::days(d);
-        int daysNabavka = Datum2::days(donesen);
+        int daysDate = Datum::days(d);
+        int daysNabavka = Datum::days(donesen);
 
         return ((daysDate - daysNabavka) - 7 <= 0);
     }
@@ -411,12 +277,12 @@ public:
 class Pantaloni : public Artikl
 {
 private:
-    Datum2 nabavka;
+    Datum nabavka;
 
 public:
     inline const static int tip = 0;
 
-    Pantaloni(const char* ime, int golemina, double cena, const Datum2& donesen, const Datum2& nabavka) :
+    Pantaloni(const char* ime, int golemina, double cena, const Datum& donesen, const Datum& nabavka) :
         Artikl(ime, golemina, cena, donesen)
     {
         this->nabavka = nabavka;
@@ -442,7 +308,7 @@ class Kosuli : public Artikl
 public:
     inline const static int tip = 1;
 
-    Kosuli(const char* ime, int golemina, double cena, const Datum2& donesen) :
+    Kosuli(const char* ime, int golemina, double cena, const Datum& donesen) :
         Artikl(ime, golemina, cena, donesen)
     {
 
@@ -493,8 +359,8 @@ public:
         char ime[20];
         int golemina;
         double cena;
-        Datum2 donesen;
-        Datum2 nabavka;
+        Datum donesen;
+        Datum nabavka;
 
         std::cout << "Vnesete ime: ";
         std::cin >> ime;
@@ -554,7 +420,7 @@ public:
 
     void prikaziArtikliNabavkaNedela()
     {
-        Datum2 d;
+        Datum d;
         std::cout << "Vnesete denesen datum (dd mm yyyy): ";
         std::cin >> d;
 
@@ -576,12 +442,12 @@ void zadaca05_02()
 {
     Prodavnica prodavnica;
 
-    prodavnica.dodadiArtikl(new Pantaloni("Pant A", 36, 36.84, Datum2(24,3,2020), Datum2(13,5,2020)));
-    prodavnica.dodadiArtikl(new Kosuli("Kosula A", 32, 38.29, Datum2(13,4,2020)));
-    prodavnica.dodadiArtikl(new Pantaloni("Pant B", 31, 28.32, Datum2(8,2,2020), Datum2(23,8,2020)));
-    prodavnica.dodadiArtikl(new Kosuli("Kosula B", 33, 29.99, Datum2(5,7,2020)));
-    prodavnica.dodadiArtikl(new Pantaloni("Pant C", 40, 33.51, Datum2(7,6,2020), Datum2(5,10,2020)));
-    prodavnica.dodadiArtikl(new Kosuli("Kosula C", 38, 40.49, Datum2(6,6,2020)));
+    prodavnica.dodadiArtikl(new Pantaloni("Pant A", 36, 36.84, Datum(24,3,2020), Datum(13,5,2020)));
+    prodavnica.dodadiArtikl(new Kosuli("Kosula A", 32, 38.29, Datum(13,4,2020)));
+    prodavnica.dodadiArtikl(new Pantaloni("Pant B", 31, 28.32, Datum(8,2,2020), Datum(23,8,2020)));
+    prodavnica.dodadiArtikl(new Kosuli("Kosula B", 33, 29.99, Datum(5,7,2020)));
+    prodavnica.dodadiArtikl(new Pantaloni("Pant C", 40, 33.51, Datum(7,6,2020), Datum(5,10,2020)));
+    prodavnica.dodadiArtikl(new Kosuli("Kosula C", 38, 40.49, Datum(6,6,2020)));
 
     while(true)
     {

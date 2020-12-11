@@ -5,153 +5,19 @@
 #include <iostream>
 #include <cstring>
 #include <sstream>
-
-class Datum3
-{
-private:
-    int den;
-    int godina;
-    int mesec;
-
-public:
-    Datum3() {}
-
-    Datum3(int den, int mesec, int godina)
-    {
-        this->den = den;
-        this->mesec = mesec;
-        this->godina = godina;
-    }
-
-    static bool isLeapYear(int year)
-    {
-        if (year % 4 == 0)
-        {
-            if (year % 100 == 0)
-            {
-                if (year % 400 == 0)
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return true;
-        }
-        else
-            return false;
-    }
-
-    static int daysOfMonth(int month, int year)
-    {
-        switch (month)
-        {
-            case 1: return 31;
-            case 2: return isLeapYear(year)?29:28;
-            case 3: return 31;
-            case 4: return 30;
-            case 5: return 31;
-            case 6: return 30;
-            case 7: return 31;
-            case 8: return 31;
-            case 9: return 30;
-            case 10: return 31;
-            case 11: return 30;
-            case 12: return 31;
-        }
-        return -1;
-    }
-
-    static int days(const Datum3& d)
-    {
-        int day = 0;
-        for (int i=1;i<d.godina;++i)
-        {
-            if (isLeapYear(i))
-                day += 366;
-            else
-                day += 365;
-        }
-
-        for (int i=1;i<d.mesec;++i)
-            day += daysOfMonth(i, d.godina);
-
-        day += d.den;
-
-        return day;
-    }
-
-    static Datum3 getDatum(int days)
-    {
-        int d = 1;
-        int m = 1;
-        int y = 1;
-
-        while(true)
-        {
-            if (isLeapYear(y))
-            {
-                if (days >= 366)
-                {
-                    days -= 366;
-                    ++y;
-                }
-                else
-                    break;
-            }
-            else
-            {
-                if (days >= 365)
-                {
-                    days -= 365;
-                    ++y;
-                }
-                else
-                    break;
-            }
-        }
-
-        while(true)
-        {
-            int dim = daysOfMonth(m, y);
-
-            if (days >= dim)
-            {
-                days -= dim;
-                ++m;
-            }
-            else
-                break;
-        }
-
-        d = days;
-
-        return Datum3(d, m, y);
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Datum3& d)
-    {
-        std::stringstream ss;
-        ss << d.den << "." << d.mesec << "." << d.godina;
-        return os << ss.str();
-    }
-
-    friend std::istream& operator>>(std::istream& is, Datum3& d)
-    {
-        return is >> d.den >> d.mesec >> d.godina;
-    }
-};
+#include "Datum.h"
 
 class Zivotno2
 {
 protected:
-    Datum3 ragjanje;
-    Datum3 donesuvanje;
+    Datum ragjanje;
+    Datum donesuvanje;
     char pol;
     char ime[15];
-    Datum3 vakcina;
+    Datum vakcina;
 
 public:
-    Datum3 getVakcina()
+    Datum getVakcina()
     {
         return vakcina;
     }
@@ -159,7 +25,7 @@ public:
 public:
     virtual char getTip() = 0;
 
-    Zivotno2(const Datum3& ragjanje, const Datum3& donesuvanje, char pol, const char* ime, const Datum3& vakcina)
+    Zivotno2(const Datum& ragjanje, const Datum& donesuvanje, char pol, const char* ime, const Datum& vakcina)
     {
         this->ragjanje = ragjanje;
         this->donesuvanje = donesuvanje;
@@ -191,13 +57,13 @@ public:
                   << std::setw(15) << std::left << "Prezivar" << std::endl;
     }
 
-    virtual bool presmetajVakcinacija(const Datum3& d) = 0;
+    virtual bool presmetajVakcinacija(const Datum& d) = 0;
 };
 
 class Vlekaci : public Zivotno2
 {
 private:
-    Datum3 slednaVakcina;
+    Datum slednaVakcina;
 
 public:
     inline static const char tip = 'v';
@@ -207,7 +73,7 @@ public:
         return tip;
     }
 
-    Vlekaci(const Datum3& ragjanje, const Datum3& donesuvanje, char pol, const char* ime, const Datum3& vakcina, const Datum3& slednaVakcina) :
+    Vlekaci(const Datum& ragjanje, const Datum& donesuvanje, char pol, const char* ime, const Datum& vakcina, const Datum& slednaVakcina) :
         Zivotno2(ragjanje, donesuvanje, pol, ime, vakcina)
     {
         this->slednaVakcina = slednaVakcina;
@@ -223,9 +89,9 @@ public:
                   << std::setw(20) << std::left << slednaVakcina << std::endl;
     }
 
-    bool presmetajVakcinacija(const Datum3& d) override
+    bool presmetajVakcinacija(const Datum& d) override
     {
-        return ((Datum3::days(d) - Datum3::days(vakcina)) - 243 - 7 <= 0);
+        return ((Datum::days(d) - Datum::days(vakcina)) - 243 - 7 <= 0);
     }
 };
 
@@ -242,7 +108,7 @@ public:
         return tip;
     }
 
-    Ptici(const Datum3& ragjanje, const Datum3& donesuvanje, char pol, const char* ime, const Datum3& vakcina, char letac) :
+    Ptici(const Datum& ragjanje, const Datum& donesuvanje, char pol, const char* ime, const Datum& vakcina, char letac) :
         Zivotno2(ragjanje, donesuvanje, pol, ime, vakcina)
     {
         this->letac = letac;
@@ -258,9 +124,9 @@ public:
                   << std::setw(15) << std::left << letac << std::endl;
     }
 
-    bool presmetajVakcinacija(const Datum3& d) override
+    bool presmetajVakcinacija(const Datum& d) override
     {
-        return ((Datum3::days(d) - Datum3::days(vakcina)) - 182 - 7 <= 0);
+        return ((Datum::days(d) - Datum::days(vakcina)) - 182 - 7 <= 0);
     }
 };
 
@@ -277,7 +143,7 @@ public:
         return tip;
     }
 
-    Cicaci(const Datum3& ragjanje, const Datum3& donesuvanje, char pol, const char* ime, const Datum3& vakcina, char prezivar) :
+    Cicaci(const Datum& ragjanje, const Datum& donesuvanje, char pol, const char* ime, const Datum& vakcina, char prezivar) :
         Zivotno2(ragjanje, donesuvanje, pol, ime, vakcina)
     {
         this->prezivar = prezivar;
@@ -293,9 +159,9 @@ public:
                   << std::setw(15) << std::left << prezivar << std::endl;
     }
 
-    bool presmetajVakcinacija(const Datum3& d) override
+    bool presmetajVakcinacija(const Datum& d) override
     {
-        return ((Datum3::days(d) - Datum3::days(vakcina)) - 365 - 7 <= 0);
+        return ((Datum::days(d) - Datum::days(vakcina)) - 365 - 7 <= 0);
     }
 };
 
@@ -335,13 +201,13 @@ public:
 
     void dodadiZivotno()
     {
-        Datum3 ragjanje;
-        Datum3 donesuvanje;
+        Datum ragjanje;
+        Datum donesuvanje;
         char tip;
         char pol;
         char ime[15];
-        Datum3 vakcinacija;
-        Datum3 sledna;
+        Datum vakcinacija;
+        Datum sledna;
         char letac;
         char prezivar;
 
@@ -426,7 +292,7 @@ public:
     {
         if (brojZivotni > 0)
         {
-            Datum3 d;
+            Datum d;
             std::cout << "Vnesete denesen datum (dd mm yyyy): ";
             std::cin >> d;
 
@@ -447,12 +313,12 @@ public:
 void zadaca07_01()
 {
     Zooloska2 zoo;
-    zoo.dodadiZivotno(new Cicaci (Datum3(13, 6, 2020), Datum3(18, 8, 2020), 'm',     "Foka", Datum3(27, 7, 2020), 'n'));
-    zoo.dodadiZivotno(new Ptici  (Datum3( 2, 7, 2020), Datum3(18, 8, 2020), 'z',     "Orel", Datum3(23, 8, 2020), 'd'));
-    zoo.dodadiZivotno(new Vlekaci(Datum3( 8, 2, 2020), Datum3(18, 8, 2020), 'z',    "Zmija", Datum3( 4, 3, 2020), Datum3(25, 9, 2020)));
-    zoo.dodadiZivotno(new Cicaci (Datum3(24, 1, 2020), Datum3(18, 8, 2020), 'z',    "Tigar", Datum3(13, 2, 2020), 'n'));
-    zoo.dodadiZivotno(new Ptici  (Datum3(28, 3, 2020), Datum3(18, 8, 2020), 'm',      "Buv", Datum3( 8, 4, 2020), 'd'));
-    zoo.dodadiZivotno(new Vlekaci(Datum3(16, 3, 2020), Datum3(18, 8, 2020), 'm', "Krokodil", Datum3(16, 4, 2020), Datum3(4, 9, 2020)));
+    zoo.dodadiZivotno(new Cicaci (Datum(13, 6, 2020), Datum(18, 8, 2020), 'm',     "Foka", Datum(27, 7, 2020), 'n'));
+    zoo.dodadiZivotno(new Ptici  (Datum( 2, 7, 2020), Datum(18, 8, 2020), 'z',     "Orel", Datum(23, 8, 2020), 'd'));
+    zoo.dodadiZivotno(new Vlekaci(Datum( 8, 2, 2020), Datum(18, 8, 2020), 'z',    "Zmija", Datum( 4, 3, 2020), Datum(25, 9, 2020)));
+    zoo.dodadiZivotno(new Cicaci (Datum(24, 1, 2020), Datum(18, 8, 2020), 'z',    "Tigar", Datum(13, 2, 2020), 'n'));
+    zoo.dodadiZivotno(new Ptici  (Datum(28, 3, 2020), Datum(18, 8, 2020), 'm',      "Buv", Datum( 8, 4, 2020), 'd'));
+    zoo.dodadiZivotno(new Vlekaci(Datum(16, 3, 2020), Datum(18, 8, 2020), 'm', "Krokodil", Datum(16, 4, 2020), Datum(4, 9, 2020)));
 
     while(true)
     {
@@ -481,7 +347,6 @@ void zadaca07_01()
     }
 
     std::cout << std::endl;
-
 }
 
 #endif // T07_VIRTUELNI_FUNKCII_H

@@ -10,7 +10,7 @@
 
 int main()
 {
-    zadaca();
+    zadaca03_02();
 
     return 0;
 }

@@ -241,7 +241,7 @@ public:
     }
 };
 
-void zadaca()
+void zadaca03_02()
 {
     Mnozestvo<int> a;
     Mnozestvo<double> b;
