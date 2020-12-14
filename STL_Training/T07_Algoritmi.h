@@ -238,4 +238,64 @@ void zadaca07_02()
     std::cout << std::endl;
 }
 
+class Vraboten
+{
+private:
+    std::string ime;
+    std::vector<int> bodovi;
+
+public:
+    Vraboten(const std::string& ime)
+    {
+        this->ime = ime;
+
+        bodovi.reserve(8);
+
+        int num = rand()%4 + 4;
+
+        for (int i=0;i<num;++i)
+            bodovi.push_back(rand()%50);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Vraboten& v)
+    {
+        os << v.ime;
+
+        os << "\t" << v.presmetajBodovi();
+
+        for (int b : v.bodovi)
+            os << "\t" << b;
+
+        return os;
+    }
+
+    int presmetajBodovi() const
+    {
+        return std::accumulate(bodovi.begin(), bodovi.end(), 0, [&](int a, int c){
+            return a + c*bodovi.size();
+        });
+    }
+};
+
+void zadaca07_03()
+{
+    srand(time(0));
+
+    std::vector<Vraboten> vraboteni = { Vraboten("Jovan"), Vraboten("Marko"), Vraboten("Martin"),
+                                        Vraboten("Andrej"), Vraboten("David"), Vraboten("Martina"),
+                                        Vraboten("Sara"), Vraboten("Jovana"), Vraboten("Viktor"),
+                                        Vraboten("Maja"), Vraboten("Ana"), Vraboten("Filip") };
+
+
+    std::sort(vraboteni.begin(), vraboteni.end(), [](Vraboten& v1, Vraboten& v2){
+        return v1.presmetajBodovi() > v2.presmetajBodovi();
+    });
+
+    std::cout << "Ime\tVkupno\tBodovi..." << std::endl;
+    for (Vraboten& v : vraboteni)
+        std::cout << v << std::endl;
+
+
+}
+
 #endif // T07_ALGORITMI_H
