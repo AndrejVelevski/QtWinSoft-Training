@@ -31,16 +31,6 @@ public:
     };
 };
 
-class my_exception : public std::exception {
-  private:
-    std::string err_msg;
-
-  public:
-    my_exception(const char *msg) : err_msg(msg) {};
-    ~my_exception() throw() {};
-    const char *what() const throw() { return this->err_msg.c_str(); };
-};
-
 template<typename T>
 void copy(std::vector<T>& dest, std::vector<T> source)
 {
@@ -104,6 +94,83 @@ void zadaca08_01()
         std::cout << "Error: " << e.what() << std::endl;
         SetConsoleTextAttribute(hConsole, 7);
         return;
+    }
+
+    std::cout << std::endl;
+}
+
+class Foo
+{
+public:
+    Foo()
+    {
+        std::cout << "Constructor" << std::endl;
+    }
+
+    ~Foo()
+    {
+        std::cout << "Destructor" << std::endl;
+    }
+};
+
+void zadaca08_02()
+{
+    Foo* f = new Foo();
+
+    try
+    {
+        throw f;
+    }
+    catch (Foo* f)
+    {
+        std::cout << "Pred da se ispecati ovaa linija imame throw f, i gledame deka ne e povikan destruktorot." << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
+class Motor
+{
+public:
+    Motor()
+    {
+        std::cout << "Konstruktor na Motor" << std::endl;
+        throw std::runtime_error("Isklucok frlen od Motor");
+    }
+};
+
+class Avtomobil
+{
+public:
+    Avtomobil()
+    {
+        std::cout << "Konstruktor na Avtomobil" << std::endl;
+        Motor m;
+    }
+};
+
+class Garaza
+{
+public:
+    Garaza()
+    {
+        std::cout << "Konstruktor na Garaza" << std::endl;
+
+        try {
+            Avtomobil a;
+        }  catch (std::exception& e) {
+            std::cerr << "Catch vo Garaza: " << e.what() << std::endl;
+            throw std::runtime_error("Isklucok frlen od Garaza");
+        }
+    }
+};
+
+void zadaca08_03()
+{
+    try {
+        Garaza();
+    }  catch (std::exception& e) {
+        std::cout << "Catch vo main: " << e.what() << std::endl;
     }
 
     std::cout << std::endl;

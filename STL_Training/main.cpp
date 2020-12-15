@@ -15,12 +15,12 @@
     zadaca05_01, ... , zadaca05_04
     zadaca06_01, ... , zadaca06_02
     zadaca07_01, ... , zadaca07_03
-    zadaca07_01, ... , zadaca08_01
+    zadaca08_01, ... , zadaca08_03
 */
 
 int main()
 {
-    zadaca08_01();
+    zadaca08_03();
 
     return 0;
 }
