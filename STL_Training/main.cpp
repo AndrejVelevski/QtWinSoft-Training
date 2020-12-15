@@ -5,6 +5,7 @@
 #include "T05_Sekvencijalni_kontejneri.h"
 #include "T06_Asocijativni_kontejneri.h"
 #include "T07_Algoritmi.h"
+#include "T08_Spravuvanje_so_isklucoci.h"
 
 /*
     zadaca01_01, ... , zadaca01_05
@@ -14,11 +15,12 @@
     zadaca05_01, ... , zadaca05_04
     zadaca06_01, ... , zadaca06_02
     zadaca07_01, ... , zadaca07_03
+    zadaca07_01, ... , zadaca08_01
 */
 
 int main()
 {
-    zadaca07_03();
+    zadaca08_01();
 
     return 0;
 }
