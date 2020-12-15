@@ -8,6 +8,7 @@
 #include "T08_Spravuvanje_so_isklucoci.h"
 #include "T09_Stream_Input_Output.h"
 #include "T10_Zadaci_vezbanje.h"
+#include "T11_Final.h"
 
 /*
     zadaca01_01, ... , zadaca01_05
@@ -20,11 +21,12 @@
     zadaca08_01, ... , zadaca08_03
     zadaca09_01, ... , zadaca09_02
     zadaca10_01, ... , zadaca10_02
+    zadaca11_01, ... , zadaca11_02
 */
 
 int main()
 {
-    zadaca10_02();
+    zadaca11_02();
 
     return 0;
 }
