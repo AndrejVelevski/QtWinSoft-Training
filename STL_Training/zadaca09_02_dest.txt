@@ -1,0 +1,17 @@
+These are or from the and We have used whose types were these cin is an of class and cout is an of class we have been using that are to our file And in fact, we can use our file the same way we are used to use cin and cout, with the only that we have to these with Let's see an 
+
+The first on an of one of these is to it to a real file. This is known as to open a file. An open file is a by a an of one of these in the this was and any input or on this will be to the file to it. 
+
+For and and are and even if a mode that does not them is as to the open (the flags are 
+
+For the value is only if the is any value for the mode If the is with any value in that the mode is not 
+
+File in mode input and of any files are known as text and some may occur due to of some (like and 
+
+Since the first task that is on a file is to open a file, these three a that calls the open and has the exact same as this we could also have the and the same in our by 
+
+Text file are those where the flag is not in their mode. These files are to store text and thus all that are input or them can some which do not to their 
+
+on text files are in the same way we with cout: 
+
+This last reads a text file and out its on the We have a while loop that reads the file line by line, using The value by is a to the which when as a (as in this is true if the is ready for more and false if the end of the file has been or if some other error 

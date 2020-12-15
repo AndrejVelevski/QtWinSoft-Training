@@ -6,6 +6,7 @@
 #include "T06_Asocijativni_kontejneri.h"
 #include "T07_Algoritmi.h"
 #include "T08_Spravuvanje_so_isklucoci.h"
+#include "T09_Stream_Input_Output.h"
 
 /*
     zadaca01_01, ... , zadaca01_05
@@ -16,11 +17,12 @@
     zadaca06_01, ... , zadaca06_02
     zadaca07_01, ... , zadaca07_03
     zadaca08_01, ... , zadaca08_03
+    zadaca09_01, ... , zadaca09_02
 */
 
 int main()
 {
-    zadaca08_03();
+    zadaca09_02();
 
     return 0;
 }
