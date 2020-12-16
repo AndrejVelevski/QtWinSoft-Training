@@ -2,7 +2,7 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QDir>
+#include <QList>
 
 #define qlog qDebug()
 
@@ -12,10 +12,13 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.show();
 
-    QDir dir("D:/");
+    QList<int> list;
 
-    for(QFileInfo& q : dir.entryInfoList())
-        qlog << q.absoluteFilePath();
+    for (int i=0;i<10;++i)
+        list.append(i);
 
-    return a.exec();
+    for (int n : list)
+        qlog << n;
+
+    return 0;
 }
