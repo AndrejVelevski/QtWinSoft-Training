@@ -16,8 +16,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_3_clicked(); //AUTO GENERATED
-    void myExitFunction();
+    void on_actionExit_triggered();
+
+    void on_actionAdd_Person_triggered();
 
 private:
     Ui::MainWindow *ui;
