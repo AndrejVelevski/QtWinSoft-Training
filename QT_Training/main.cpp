@@ -11,24 +11,39 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.show();
 
-    QMultiMap<QString, int> map;
+    QMap<QString, int> map;
+    QHash<QString, int> hash;
 
     map.insert("Andrej", 23);
     map.insert("Maja", 20);
     map.insert("Jovan", 30);
     map.insert("Kosta", 14);
-    map.insert("Andrej", 20);
 
-    QMultiMapIterator<QString, int> it(map);
+    hash.insert("Andrej", 23);
+    hash.insert("Maja", 20);
+    hash.insert("Jovan", 30);
+    hash.insert("Kosta", 14);
 
-    while(it.hasNext())
+    QMapIterator<QString, int> mapit(map);
+    QHashIterator<QString, int> hashit(hash);
+
+    while(mapit.hasNext())
     {
-        it.next();
-        qlog << it.key() << it.value();
+        mapit.next();
+        qlog << mapit.key() << mapit.value();
     }
 
     qlog << map.contains("Ana");
-    qlog << map.find("Andrej").value();
+    qlog << map["Andrej"];
+
+    while(hashit.hasNext())
+    {
+        hashit.next();
+        qlog << hashit.key() << hashit.value();
+    }
+
+    qlog << hash.contains("Ana");
+    qlog << hash["Andrej"];
 
     return 0;
 }
