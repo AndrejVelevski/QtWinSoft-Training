@@ -17,8 +17,13 @@ int main(int argc, char *argv[])
     for (int i=0;i<10;++i)
         list.append(i);
 
-    for (int n : list)
-        qlog << n;
+    QListIterator<int> it(list);
+
+    while(it.hasNext())
+        qlog << it.next();
+
+    for (auto i = list.begin(); i != list.end(); ++i)
+        qlog << *i;
 
     return 0;
 }
