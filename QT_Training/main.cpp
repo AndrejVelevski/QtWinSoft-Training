@@ -11,39 +11,16 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.show();
 
-    QMap<QString, int> map;
-    QHash<QString, int> hash;
+    QString str = "a,b,c,d,e,f,g";
 
-    map.insert("Andrej", 23);
-    map.insert("Maja", 20);
-    map.insert("Jovan", 30);
-    map.insert("Kosta", 14);
+    QStringList list = str.split(",");
 
-    hash.insert("Andrej", 23);
-    hash.insert("Maja", 20);
-    hash.insert("Jovan", 30);
-    hash.insert("Kosta", 14);
+    for(QString& s : list)
+        qlog << s;
 
-    QMapIterator<QString, int> mapit(map);
-    QHashIterator<QString, int> hashit(hash);
+    QString newStr = list.join("--");
 
-    while(mapit.hasNext())
-    {
-        mapit.next();
-        qlog << mapit.key() << mapit.value();
-    }
-
-    qlog << map.contains("Ana");
-    qlog << map["Andrej"];
-
-    while(hashit.hasNext())
-    {
-        hashit.next();
-        qlog << hashit.key() << hashit.value();
-    }
-
-    qlog << hash.contains("Ana");
-    qlog << hash["Andrej"];
+    qlog << newStr;
 
     return 0;
 }
