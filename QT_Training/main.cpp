@@ -2,7 +2,6 @@
 
 #include <QApplication>
 #include <QDebug>
-#include <QLinkedList>
 
 #define qlog qDebug()
 
@@ -12,13 +11,24 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.show();
 
-    QLinkedList<int> list;
+    QMultiMap<QString, int> map;
 
-    for (int i=0;i<10;++i)
-        list.append(i);
+    map.insert("Andrej", 23);
+    map.insert("Maja", 20);
+    map.insert("Jovan", 30);
+    map.insert("Kosta", 14);
+    map.insert("Andrej", 20);
 
-    for (int i : list)
-        qlog << i;
+    QMultiMapIterator<QString, int> it(map);
+
+    while(it.hasNext())
+    {
+        it.next();
+        qlog << it.key() << it.value();
+    }
+
+    qlog << map.contains("Ana");
+    qlog << map.find("Andrej").value();
 
     return 0;
 }
