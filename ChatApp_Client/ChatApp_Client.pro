@@ -1,5 +1,5 @@
 QT += core gui
-QT += widgets
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,18 +10,15 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dialogaddnewperson.cpp \
+    client.cpp \
     main.cpp \
-    mainwindow.cpp \
-    person.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    dialogaddnewperson.h \
-    mainwindow.h \
-    person.h
+    client.h \
+    mainwindow.h
 
 FORMS += \
-    dialogaddnewperson.ui \
     mainwindow.ui
 
 # Default rules for deployment.

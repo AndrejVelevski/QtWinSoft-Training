@@ -9,6 +9,10 @@ public:
     Person();
     Person(const QString& firstName, const QString& lastName, int age);
 
+    QString getFirstName();
+    QString getLastName();
+    int getAge();
+
     QString ToString() const;
 
 private:

@@ -17,3 +17,18 @@ QString Person::ToString() const
 {
     return mFirstName + " " + mLastName + " " + QString::number(mAge);
 }
+
+QString Person::getFirstName()
+{
+    return mFirstName;
+}
+
+QString Person::getLastName()
+{
+    return mLastName;
+}
+
+int Person::getAge()
+{
+    return mAge;
+}
