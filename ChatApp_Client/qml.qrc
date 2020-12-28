@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>res/moon.png</file>
+        <file>res/sun.png</file>
+        <file>MyButton.qml</file>
+        <file>MyTaskbar.qml</file>
+        <file>MyInputForm.qml</file>
+        <file>MyTextEdit.qml</file>
+        <file>MyContainer.qml</file>
+        <file>MyLabel.qml</file>
+    </qresource>
+</RCC>

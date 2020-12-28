@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import QtQuick.Shapes 1.12
 
 Window {
     width: 640
@@ -37,4 +38,10 @@ Window {
             color: "yellow"
         }
     }
+
+    TextInput {
+        text: "Text"
+        cursorVisible: false
+    }
+
 }
