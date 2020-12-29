@@ -4,11 +4,18 @@ import QtQuick.Layouts 1.3
 
 RowLayout
 {
-    Label
+    FontLoader
+    {
+        id: loader
+        source: "qrc:/res/Brush Script MT.ttf"
+    }
+
+    MyLabel
     {
         text: "ChatApp"
-        font.family: "Brush Script MT"
-        font.pointSize: 36
+        fontfamily: loader.name
+        fontpointSize: 36
+        padding: 0
     }
 
     Item
@@ -20,40 +27,87 @@ RowLayout
     {
         width: 48
         height: 48
-        z: 10
 
         Image
         {
-           width: 32
-           height: 32
-           anchors.centerIn: parent
-           source: "qrc:/res/sun.png"
+            id: themeIcon
+            property bool theme: true
+            width: 32
+            height: 32
+            anchors.centerIn: parent
+            source: "qrc:/res/sun.png"
+        }
+
+        onClicked:
+        {
+            root.colorBackground.r = 1 - root.colorBackground.r;
+            root.colorBackground.g = 1 - root.colorBackground.g;
+            root.colorBackground.b = 1 - root.colorBackground.b;
+
+            root.colorAccent.r = 1 - root.colorAccent.r;
+            root.colorAccent.g = 1 - root.colorAccent.g;
+            root.colorAccent.b = 1 - root.colorAccent.b;
+
+            root.colorTextBorder.r = 1 - root.colorTextBorder.r;
+            root.colorTextBorder.g = 1 - root.colorTextBorder.g;
+            root.colorTextBorder.b = 1 - root.colorTextBorder.b;
+
+            if (themeIcon.theme)
+            {
+                themeIcon.source = "qrc:/res/moon.png";
+                cover.color = Qt.rgba(0, 0, 0, 0.8);
+            }
+            else
+            {
+                themeIcon.source = "qrc:/res/sun.png";
+                cover.color = Qt.rgba(1, 1, 1, 0.2);
+            }
+            themeIcon.theme = !themeIcon.theme;
+
+
         }
     }
 
     MyButton
     {
-        id: buttonClose
         width: 48
         height: 48
-        z: 10
 
-        Label
+        text: "X"
+        pointSize: 24
+
+        Timer
         {
-           anchors.centerIn: parent
-           text: "X"
-           font.pointSize: 24
+            id: timer
+            interval: 500
+            running: false
+            repeat: false
+            onTriggered:
+            {
+                status.visible = true;
+            }
         }
 
-        MouseArea
+        onClicked:
         {
-            anchors.fill: parent;
-            cursorShape: Qt.PointingHandCursor;
-
-            onClicked:
+            if (stack.depth > 1)
             {
-                close();
+                client.disconnectFromServer();
             }
+            else
+            {
+                //close();
+                Qt.quit();
+            }
+        }
+
+        function delay(delayTime, cb)
+        {
+            let timer = Qt.createQmlObject("import QtQuick 2.9; Timer {}");
+            timer.interval = delayTime;
+            timer.repeat = false;
+            timer.triggered.connect(cb);
+            timer.start();
         }
     }
 }

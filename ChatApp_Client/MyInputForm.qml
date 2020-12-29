@@ -6,14 +6,20 @@ GridLayout
 {
     columns: 2
 
+    property alias username: username.text
+    property alias address: address.text
+    property alias port: port.text
+
     MyLabel
     {
         text: "Username"
         Layout.alignment: Qt.AlignRight
     }
 
-    MyTextEdit
+    MyTextInput
     {
+        id: username
+        objectName: "username"
         Layout.fillWidth: true
     }
 
@@ -23,8 +29,10 @@ GridLayout
         Layout.alignment: Qt.AlignRight
     }
 
-    MyTextEdit
+    MyTextInput
     {
+        id: address
+        objectName: "address"
         Layout.fillWidth: true
         text: "127.0.0.1"
     }
@@ -35,8 +43,10 @@ GridLayout
         Layout.alignment: Qt.AlignRight
     }
 
-    MyTextEdit
+    MyTextInput
     {
+        id: port
+        objectName: "port"
         Layout.fillWidth: true
         text: "12345"
     }

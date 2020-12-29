@@ -1,47 +1,43 @@
 import QtQuick 2.12
-import QtQuick.Window 2.12
-import QtQuick.Shapes 1.12
+import QtQuick.Controls 2.12
 
-Window {
+Window
+{
+    id: root
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    flags: Qt.Window
+    title: qsTr("asdsa")
 
-    Rectangle {
-        anchors.centerIn: parent
-        width: 300
-        height: 200
-        color: "red"
-        border.width: 4
-        border.color: "black"
-
-        Rectangle {
-            anchors.centerIn: parent
-            width: 50
-            height: 50
-            color: "yellow"
-            radius: width / 2
+    Menu {
+        id: menu
+        MenuItem {
+            text: qsTr("New...")
+        }
+        MenuItem {
+            text: qsTr("Open...")
+        }
+        MenuItem {
+            text: qsTr("Save")
         }
 
-        Rectangle {
-            anchors.centerIn: parent
-            width: parent.width - 2 * parent.border.width
-            height: 10
-            color: "yellow"
+        MenuSeparator {
+            padding: 0
+            topPadding: 12
+            bottomPadding: 12
+            contentItem: Rectangle {
+                implicitWidth: 200
+                implicitHeight: 1
+                color: "#1E000000"
+            }
         }
 
-        Rectangle {
-            anchors.centerIn: parent
-            width: 10
-            height: parent.height - 2 * parent.border.width
-            color: "yellow"
+        MenuItem {
+            text: qsTr("Exit")
         }
     }
-
-    TextInput {
-        text: "Text"
-        cursorVisible: false
-    }
-
 }
+
+
+

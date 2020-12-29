@@ -5,7 +5,11 @@ MyContainer
     property string text: ""
     property int padding: 8
     property int pointSize: 12
-    color: Qt.rgba(0, 0, 0, 0)
+    property alias textWidth: text.width
+    property alias textHeight: text.height
+    signal clicked()
+    width: text.width
+    height: text.height
 
     MouseArea
     {
@@ -15,19 +19,25 @@ MyContainer
 
         onEntered:
         {
-            parent.color = Qt.rgba(0.7, 0.7, 0.7, 1);
+            parent.color = root.colorAccent;
         }
         onExited:
         {
             parent.color = Qt.rgba(0, 0, 0, 0);
         }
+        onClicked:
+        {
+            parent.clicked();
+        }
     }
 
-    MyLabel
+    Text
     {
+        id: text
         text: parent.text
         padding: parent.padding
-        pointSize: parent.pointSize
+        font.pointSize: parent.pointSize
         anchors.centerIn: parent
+        color: root.colorTextBorder
     }
 }

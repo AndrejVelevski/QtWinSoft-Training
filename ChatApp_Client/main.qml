@@ -9,93 +9,253 @@ Window
     width: 640
     height: 480
     visible: true
-    flags: Qt.Window | Qt.CustomizeWindowHint
-    //flags: Qt.FramelessWindowHint
+    flags: Qt.Window
     title: qsTr("ChatApp")
     minimumWidth: 274
     minimumHeight: 336
-    color: Qt.rgba(0.9, 0.9, 0.9, 9)
+    property color colorBackground: Qt.rgba(0.9, 0.9, 0.9, 1)
+    property color colorAccent: Qt.rgba(0.7, 0.7, 0.7, 0.5)
+    property color colorTextBorder: Qt.rgba(0, 0, 0, 1)
+    property string username: "Default"
 
-    /*MouseArea
+    color: colorBackground
+
+    Image
     {
-        property variant clickPos: "0, 0";
-
-        width: 4
+        width: parent.width
         height: parent.height
+        fillMode: Image.Tile
+        source: "qrc:/res/nebula.jpg"
 
-        anchors.right: parent.right;
-
-        cursorShape: Qt.SizeHorCursor
-
-        onPressed:
+        Rectangle
         {
-            clickPos = Qt.point(mouse.x, mouse.y);
+            id: cover
+            anchors.fill: parent
+            color: Qt.rgba(1, 1, 1, 0.2)
         }
 
-        onMouseXChanged:
+        ColumnLayout
         {
-            let delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y);
-            root.setWidth(parent.width + delta.x);
-            if (root.width < root.minimumWidth)
-                root.setWidth(root.minimumWidth);
-        }
-    }*/
+            anchors.fill: parent
+            anchors.margins: 8
 
-    ColumnLayout
-    {
-        width: root.width - 16
-        height: root.height - 16
-        anchors.centerIn: parent
-
-        MyTaskbar
-        {
-            MouseArea
+            MyTaskbar
             {
-                anchors.fill: parent
-                property variant clickPos: "0, 0";
+                Layout.fillHeight: true
+            }
 
-                onPressed:
+            StackView
+            {
+                id: stack
+                initialItem: homePage
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+
+            MyLabel
+            {
+                id: status
+                objectName: "status"
+                border.width: 2
+                padding: 16
+                text: ""
+                width: 0
+                color: root.colorAccent
+                Layout.fillWidth: true
+            }
+        }
+    }
+
+    Component
+    {
+        id: homePage
+
+        ColumnLayout
+        {
+            MyInputForm
+            {
+                id: form
+            }
+
+            MyButton
+            {
+                Layout.alignment: Qt.AlignHCenter
+                text: "Connect"
+                pointSize: 24
+
+                onClicked:
                 {
-                    clickPos = Qt.point(mouse.x,mouse.y);
+                    if (form.username.length === 0)
+                    {
+                        status.text = "Username can't be empty";
+                        status.textColor = "red";
+                        return;
+                    }
+                    else if (form.username.length > 20)
+                    {
+                        status.text = "Username is too big, maximum characters are 20";
+                        status.textColor = "red";
+                        return;
+                    }
+                    else if (form.username.indexOf(' ') >=0)
+                    {
+                        status.text = "Username can't contain whitespace characters";
+                        status.textColor = "red";
+                        return;
+                    }
+
+                    root.username = form.username;
+
+                    client.connectToServer(form.address, form.port);
+                }
+            }
+
+            Connections
+            {
+                target: client
+
+                function onConnectionSuccess()
+                {
+                    status.textColor = "green";
+                    status.text = "Connected";
+                    client.tryLogIn(form.username);
                 }
 
-                onPositionChanged:
+                function onLogInSuccess()
                 {
-                    let delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y);
-                    root.x += delta.x;
-                    root.y += delta.y;
+                    status.visible = false;
+                    status.textColor = "green";
+                    status.text = "Logged in";
+                    stack.push(chatPage);
+                }
+
+                function onErrorMessage(error)
+                {
+                    if (stack.depth > 1)
+                        stack.pop();
+                    status.visible = true;
+                    status.text = error;
+                    status.textColor = "red";
+                }
+
+                function onLogOut()
+                {
+                    stack.pop();
+                    status.visible = true;
+                    status.textColor = "green";
+                    status.text = "Logged out";
                 }
             }
         }
+    }
 
-        MyInputForm
+    Component
+    {
+        id: chatPage
+
+        RowLayout
         {
+            MyContainer
+            {
+                width: 150
+                Layout.fillHeight: true
 
-        }
+                ListView
+                {
+                    id: userslistview
+                    anchors.fill: parent
 
-        Item
-        {
-            Layout.fillHeight: true
-        }
+                    clip: true
+                    model: ListModel
+                    {
+                        id: userModel
+                    }
+                    delegate: MyUserDelegate
+                    {
 
-        MyButton
-        {
-            Layout.alignment: Qt.AlignHCenter
-            text: "Connect"
-            pointSize: 24
-        }
+                    }
 
-        Item
-        {
-            Layout.fillHeight: true
-        }
+                    Connections
+                    {
+                        target: client
 
-        MyLabel
-        {
-            Layout.fillWidth: true
-            border.width: 2
-            padding: 16
-            text: "Status:"
+                        function onGetUsers(users)
+                        {
+                            userModel.clear();
+
+                            for (let u of users)
+                            {
+                                userModel.append({
+                                    username: u
+                                });
+                            }
+
+                            userslistview.positionViewAtEnd();
+                        }
+                    }
+                }
+            }
+
+            ColumnLayout
+            {
+                MyContainer
+                {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    border.width: 0
+
+                    ListView
+                    {
+                        id: chatlistview
+                        anchors.fill: parent
+                        clip: true
+
+                        model: ListModel
+                        {
+                            id: chatModel;
+                        }
+
+                        delegate: MyChatMessageDelegate
+                        {
+                            width: chatlistview.width
+                        }
+
+                        onWidthChanged:
+                        {
+                            chatModel.modelReset();
+                            //chatlistview.positionViewAtEnd();
+                        }
+                    }
+                }
+
+                MyTextInput
+                {
+                    Layout.fillWidth: true
+
+                    onAccepted:
+                    {
+                        client.sendMessage(text);
+                        text = ""
+                    }
+
+                    Connections
+                    {
+                        target: client
+
+                        function onChatMessage(dateTime, username, message)
+                        {
+                            chatModel.append({
+                                username: username,
+                                dateTime: dateTime,
+                                message: message,
+                                myMessage: username === root.username
+                            });
+
+                            chatlistview.positionViewAtEnd();
+                        }
+                    }
+                }
+            }
         }
     }
 }
