@@ -1,35 +1,29 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
-RowLayout
-{
-    FontLoader
-    {
+RowLayout {
+    FontLoader {
         id: loader
         source: "qrc:/res/Brush Script MT.ttf"
     }
 
-    MyLabel
-    {
+    MyLabel {
         text: "ChatApp"
         fontfamily: loader.name
         fontpointSize: 36
         padding: 0
     }
 
-    Item
-    {
+    Item {
         Layout.fillWidth: true
     }
 
-    MyButton
-    {
+    MyButton {
         width: 48
         height: 48
 
-        Image
-        {
+        Image {
             id: themeIcon
             property bool theme: true
             width: 32
@@ -38,8 +32,7 @@ RowLayout
             source: "qrc:/res/sun.png"
         }
 
-        onClicked:
-        {
+        onClicked: {
             root.colorBackground.r = 1 - root.colorBackground.r;
             root.colorBackground.g = 1 - root.colorBackground.g;
             root.colorBackground.b = 1 - root.colorBackground.b;
@@ -63,33 +56,17 @@ RowLayout
                 cover.color = Qt.rgba(1, 1, 1, 0.2);
             }
             themeIcon.theme = !themeIcon.theme;
-
-
         }
     }
 
-    MyButton
-    {
+    MyButton {
         width: 48
         height: 48
 
         text: "X"
         pointSize: 24
 
-        Timer
-        {
-            id: timer
-            interval: 500
-            running: false
-            repeat: false
-            onTriggered:
-            {
-                status.visible = true;
-            }
-        }
-
-        onClicked:
-        {
+        onClicked: {
             if (stack.depth > 1)
             {
                 client.disconnectFromServer();
@@ -99,15 +76,6 @@ RowLayout
                 //close();
                 Qt.quit();
             }
-        }
-
-        function delay(delayTime, cb)
-        {
-            let timer = Qt.createQmlObject("import QtQuick 2.9; Timer {}");
-            timer.interval = delayTime;
-            timer.repeat = false;
-            timer.triggered.connect(cb);
-            timer.start();
         }
     }
 }

@@ -13,5 +13,7 @@
         <file>res/nebula.jpg</file>
         <file>MyUserDelegate.qml</file>
         <file>res/Brush Script MT.ttf</file>
+        <file>MyPageHome.qml</file>
+        <file>MyPageChat.qml</file>
     </qresource>
 </RCC>

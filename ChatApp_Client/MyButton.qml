@@ -1,7 +1,6 @@
-import QtQuick 2.9
+import QtQuick 2.12
 
-MyContainer
-{
+MyContainer {
     property string text: ""
     property int padding: 8
     property int pointSize: 12
@@ -11,28 +10,23 @@ MyContainer
     width: text.width
     height: text.height
 
-    MouseArea
-    {
+    MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor;
 
-        onEntered:
-        {
+        onEntered: {
             parent.color = root.colorAccent;
         }
-        onExited:
-        {
+        onExited: {
             parent.color = Qt.rgba(0, 0, 0, 0);
         }
-        onClicked:
-        {
+        onClicked: {
             parent.clicked();
         }
     }
 
-    Text
-    {
+    Text {
         id: text
         text: parent.text
         padding: parent.padding

@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 Window
 {
@@ -7,36 +7,38 @@ Window
     width: 640
     height: 480
     visible: true
-    flags: Qt.Window
-    title: qsTr("asdsa")
+    title: qsTr("Test")
 
-    Menu {
-        id: menu
-        MenuItem {
-            text: qsTr("New...")
-        }
-        MenuItem {
-            text: qsTr("Open...")
-        }
-        MenuItem {
-            text: qsTr("Save")
-        }
+    Flickable {
+        id: flick
 
-        MenuSeparator {
-            padding: 0
-            topPadding: 12
-            bottomPadding: 12
-            contentItem: Rectangle {
-                implicitWidth: 200
-                implicitHeight: 1
-                color: "#1E000000"
-            }
+        width: 300; height: 200;
+        contentWidth: edit.paintedWidth
+        contentHeight: edit.paintedHeight
+        clip: true
+
+        function ensureVisible(r)
+        {
+            if (contentX >= r.x)
+                contentX = r.x;
+            else if (contentX+width <= r.x+r.width)
+                contentX = r.x+r.width-width;
+            if (contentY >= r.y)
+                contentY = r.y;
+            else if (contentY+height <= r.y+r.height)
+                contentY = r.y+r.height-height;
         }
 
-        MenuItem {
-            text: qsTr("Exit")
+        TextEdit {
+            id: edit
+            width: flick.width
+            height: flick.height
+            focus: true
+            wrapMode: TextEdit.Wrap
+            onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
         }
     }
+
 }
 
 

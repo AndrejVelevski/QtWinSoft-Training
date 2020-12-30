@@ -1,9 +1,8 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 
-MyContainer
-{
+MyContainer {
     property alias text: textedit.text
     property alias padding: textedit.padding
     property alias leftPadding: textedit.leftPadding
@@ -18,15 +17,14 @@ MyContainer
     property alias textHeight: textedit.height
     border.width: 0
 
-    TextInput
-    {
+    TextEdit {
         id: textedit
         font.pointSize: 12
         padding: 8
         readOnly: true
         selectByMouse: true
         color: root.colorTextBorder
-        wrapMode: TextInput.WordWrap
+        wrapMode: TextEdit.Wrap
         selectionColor: {
             let r = 1 - color.r;
             let g = 1 - color.g;
