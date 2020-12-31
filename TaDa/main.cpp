@@ -24,5 +24,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
-    return app.exec();
+    int r = app.exec();
+    delete server;
+    return r;
 }

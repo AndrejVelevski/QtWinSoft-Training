@@ -29,7 +29,7 @@ ColumnLayout {
     Rectangle {
         Layout.fillWidth: true
         height: 1
-        color: "#333"
+        color: "#ccc"
     }
 
     Item {

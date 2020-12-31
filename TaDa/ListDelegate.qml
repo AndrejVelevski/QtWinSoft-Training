@@ -19,10 +19,10 @@ Item {
                 height: calculateSize()
                 anchors.centerIn: parent
                 radius: width/2
-                color: "#333"
+                color: "#666"
 
                 function calculateSize() {
-                    return Math.max(4, Math.min(12, numItems+4));
+                    return Math.max(4, Math.min(12, numTasks+4));
                 }
             }
         }
@@ -68,7 +68,7 @@ Item {
             color: "transparent"
 
             TextEdit {
-                text: `— <b>${numItems} left</b>${sharing?" (Sharing)":""}`
+                text: `— <b>${numTasks} left</b>${sharing?" (Sharing)":""}`
                 textFormat: Text.MarkdownText
                 font.family: "lucia grande"
                 font.pixelSize: 10

@@ -12,7 +12,7 @@ Window {
 
     Rectangle {
         anchors.fill: parent
-        color: "antiquewhite"
+        color: "white"
 
         ColumnLayout {
             anchors.fill: parent

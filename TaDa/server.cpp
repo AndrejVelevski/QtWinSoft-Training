@@ -1,7 +1,5 @@
 #include "server.h"
 
-void test();
-
 Server::Server(QObject *parent) :
     QObject(parent),
     mDB(QSqlDatabase::addDatabase("QSQLITE"))
@@ -14,46 +12,38 @@ Server::Server(QObject *parent) :
     {
         qDebug() << "Connection to SQL server successful";
 
-        QSqlQuery query;
-        QString str;
+        exec("CREATE TABLE List ( \
+                  id INTEGER, \
+                  name TEXT NOT NULL, \
+                  description TEXT NOT NULL, \
+                  numTasks INTEGER NOT NULL DEFAULT 0, \
+                  PRIMARY KEY(id) \
+              );");
 
-        str = "CREATE TABLE List ( \
-                   id INTEGER, \
-                   name TEXT, \
-                   description TEXT, \
-                   PRIMARY KEY(id) \
-               );";
+        exec("CREATE TABLE Task ( \
+                  id INTEGER, \
+                  list INTEGER NOT NULL, \
+                  name TEXT NOT NULL, \
+                  completed INTEGER NOT NULL, \
+                  PRIMARY KEY(id), \
+                  FOREIGN KEY(list) REFERENCES List(id) ON DELETE CASCADE\
+              );");
 
-        if (!query.exec(str))
-        {
-            qDebug() << query.lastError().text();
-        }
+        exec("CREATE TRIGGER CreateTask \
+              AFTER INSERT ON Task \
+              BEGIN \
+                  UPDATE List \
+                  SET numTasks = numTasks + 1 \
+                  WHERE id = NEW.list; \
+              END;");
 
-        str = "CREATE TABLE Task ( \
-                   id INTEGER, \
-                   name TEXT, \
-                   completed INTEGER, \
-                   PRIMARY KEY(id) \
-               );";
-
-        if (!query.exec(str))
-        {
-            qDebug() << query.lastError().text();
-        }
-
-        str = "CREATE TABLE ListTask ( \
-                   list INTEGER, \
-                   task INTEGER, \
-                   FOREIGN KEY(task) REFERENCES Task(id), \
-                   FOREIGN KEY(list) REFERENCES List(id) \
-               );";
-
-        if (!query.exec(str))
-        {
-            qDebug() << query.lastError().text();
-        }
-
-        test();
+        exec("CREATE TRIGGER DeleteTask \
+              AFTER DELETE ON Task \
+              BEGIN \
+                  UPDATE List \
+                  SET numTasks = numTasks - 1 \
+                  WHERE id = OLD.list; \
+              END;");
     }
     else
     {
@@ -66,23 +56,33 @@ Server::~Server()
     mDB.close();
 }
 
-void test()
+void Server::requestLists()
 {
-    QSqlQuery query;
-    QString str;
+    QSqlQuery q = exec("SELECT * FROM List");
+    QVariantList list;
 
-    if (query.exec("SELECT * FROM List"))
+    while (q.next())
     {
-        while (query.next())
-        {
-            int id = query.value(0).toInt();
-            QString name = query.value(1).toString();
-            QString desc = query.value(2).toString();
-            qDebug() << id << name << desc;
-        }
+        int id = q.value(0).toInt();
+        QString name = q.value(1).toString();
+        QString description = q.value(2).toString();
+        int numTasks = q.value(3).toInt();
+        QVariantMap map;
+        map.insert("id", id);
+        map.insert("name", name);
+        map.insert("description", description);
+        map.insert("numTasks", numTasks);
+        list.append(map);
     }
-    else
-    {
-        qDebug() << "Failed to execute";
-    }
+
+    emit getLists(list);
+}
+
+QSqlQuery Server::exec(const QString& query)
+{
+    QSqlQuery q;
+    if (!q.exec(query))
+        qDebug() << q.lastError().text();
+
+    return q;
 }

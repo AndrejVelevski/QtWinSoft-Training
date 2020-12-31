@@ -10,16 +10,25 @@ ListView {
     ScrollBar.vertical: ScrollBar { }
 
     Component.onCompleted: {
-        for (let i=0;i<100;++i)
-        {
-            let n = Math.floor(21*Math.random());
-            let s = Math.random()<0.5?true:false;
+        server.requestLists();
+    }
 
-            model.append({
-                name: "Item " + i,
-                numItems: n,
-                sharing: s
-            });
+    Connections {
+        target: server
+
+        function onGetLists(list) {
+
+            for (let l of list)
+            {
+                console.log(l.id + " " + l.name + " " + l.description + " " + l.numTasks)
+                model.append({
+                    id: l.id,
+                    name: l.name,
+                    description: l.description,
+                    numTasks: l.numTasks,
+                    sharing: false
+                });
+            }
         }
     }
 }
