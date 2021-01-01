@@ -17,7 +17,8 @@ public:
     ~Server();
 
 public slots:
-    void requestLists();
+    void requestCompleteLists();
+    void requestIncompleteLists();
 
 private:
     QSqlQuery exec(const QString& query);
@@ -25,7 +26,8 @@ private:
     QSqlDatabase mDB;
 
 signals:
-    void getLists(QVariantList list);
+    void getCompleteLists(QVariantList list);
+    void getIncompleteLists(QVariantList list);
 };
 
 #endif // SERVER_H

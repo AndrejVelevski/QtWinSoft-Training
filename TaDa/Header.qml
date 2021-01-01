@@ -8,12 +8,11 @@ Item {
 
     Rectangle {
         width: childrenRect.width + 40
-        height: parent.height - 10
+        height: logo.height - 10
         x: logo.width
         y: 8
         color: "#efefef"
         radius: height/2
-
 
         Rectangle {
             width: parent.radius
@@ -32,9 +31,8 @@ Item {
                 font.family: "helvetica"
                 font.pixelSize: 24
                 font.bold: true
-                Layout.leftMargin: 8
-                Layout.rightMargin: 8
-                bottomPadding: 2
+                Layout.leftMargin: 12
+                Layout.rightMargin: 12
 
                 readOnly: true
                 selectByMouse: true

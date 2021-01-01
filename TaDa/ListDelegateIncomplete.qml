@@ -66,6 +66,7 @@ Item {
             width: childrenRect.width
             height: childrenRect.height
             color: "transparent"
+            visible: numTasks > 0
 
             TextEdit {
                 text: `— <b>${numTasks} left</b>${sharing?" (Sharing)":""}`

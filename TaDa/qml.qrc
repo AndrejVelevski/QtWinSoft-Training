@@ -4,7 +4,8 @@
         <file>res/tada.png</file>
         <file>Header.qml</file>
         <file>Content.qml</file>
-        <file>ListDelegate.qml</file>
+        <file>ListDelegateIncomplete.qml</file>
         <file>Splitter.qml</file>
+        <file>ListDelegateComplete.qml</file>
     </qresource>
 </RCC>

@@ -1,14 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 
 ColumnLayout {
-    Layout.fillWidth: true
-    Layout.fillHeight: true
     spacing: 0
-
-    Item {
-        height: 30
-    }
 
     Rectangle {
         width: childrenRect.width
@@ -31,8 +26,6 @@ ColumnLayout {
         height: 1
         color: "#ccc"
     }
-
-    Item {
-        height: 10
-    }
 }
+
+
