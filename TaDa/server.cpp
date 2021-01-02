@@ -15,7 +15,7 @@ Server::Server(QObject *parent) :
         exec("CREATE TABLE List ( \
                   id INTEGER, \
                   name TEXT NOT NULL, \
-                  description TEXT NOT NULL, \
+                  description TEXT NOT NULL DEFAULT \"\", \
                   numTasks INTEGER NOT NULL DEFAULT 0, \
                   numCompletedTasks INTEGER NOT NULL DEFAULT 0, \
                   sharing INTEGER NOT NULL DEFAULT 0, \
@@ -26,7 +26,7 @@ Server::Server(QObject *parent) :
                   id INTEGER, \
                   list INTEGER NOT NULL, \
                   name TEXT NOT NULL, \
-                  completed INTEGER NOT NULL, \
+                  completed INTEGER NOT NULL DEFAULT 0, \
                   PRIMARY KEY(id), \
                   FOREIGN KEY(list) REFERENCES List(id) ON DELETE CASCADE\
               );");
@@ -118,6 +118,13 @@ void Server::requestIncompleteLists()
     }
 
     emit getIncompleteLists(list);
+}
+
+void Server::createNewList(const QString& name)
+{
+    exec(QString("INSERT INTO List(name) VALUES(\"%1\")").arg(name));
+
+    emit newListCreated();
 }
 
 QSqlQuery Server::exec(const QString& query)

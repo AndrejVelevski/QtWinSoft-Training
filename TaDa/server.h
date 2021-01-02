@@ -19,6 +19,7 @@ public:
 public slots:
     void requestCompleteLists();
     void requestIncompleteLists();
+    void createNewList(const QString& name);
 
 private:
     QSqlQuery exec(const QString& query);
@@ -28,6 +29,7 @@ private:
 signals:
     void getCompleteLists(QVariantList list);
     void getIncompleteLists(QVariantList list);
+    void newListCreated();
 };
 
 #endif // SERVER_H

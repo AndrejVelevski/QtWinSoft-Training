@@ -27,58 +27,22 @@ Item {
             }
         }
 
-        Rectangle {
-            width: childrenRect.width
-            height: childrenRect.height
-            color: "transparent"
-
-            TextEdit {
-                id: text
-                text: name
-                font.family: "lucia grande"
-                font.pixelSize: 16
-                font.underline: true
-                font.bold: true
-                color: "#03c"
-
-                readOnly: true
-                selectByMouse: true
-
-                MouseArea {
-                    z: -1
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-
-                    onEntered: {
-                        parent.color = "white";
-                        parent.parent.color = "#30c";
-                    }
-                    onExited: {
-                        parent.color = "#03c";
-                        parent.parent.color = "transparent";
-                    }
-                }
-            }
+        HyperlinkBlue {
+            id: text
+            text: name
+            font.pixelSize: 16
+            font.bold: true
         }
 
-        Rectangle {
-            width: childrenRect.width
-            height: childrenRect.height
-            color: "transparent"
+        TextPlus {
             visible: numTasks > 0
 
-            TextEdit {
-                text: `— <b>${numTasks} left</b>${sharing?" (Sharing)":""}`
-                textFormat: Text.MarkdownText
-                font.family: "lucia grande"
-                font.pixelSize: 10
-                color: "#666"
-                leftPadding: 4
-
-                readOnly: true
-                selectByMouse: true
-            }
+            text: `— <b>${numTasks-numCompletedTasks} left</b>${sharing?" (Sharing)":""}`
+            textFormat: Text.MarkdownText
+            font.family: "lucia grande"
+            font.pixelSize: 10
+            textColor: "#666"
+            anchors.leftMargin: 4
         }
     }
 }

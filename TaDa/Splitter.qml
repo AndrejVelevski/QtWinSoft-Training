@@ -5,20 +5,11 @@ import QtQuick.Controls 2.12
 ColumnLayout {
     spacing: 0
 
-    Rectangle {
-        width: childrenRect.width
-        height: childrenRect.height
-        color: "transparent"
-
-        TextEdit {
-            text: "MY LISTS"
-            font.family: "lucia grande"
-            font.pixelSize: 10
-            color: "#630"
-
-            readOnly: true
-            selectByMouse: true
-        }
+    TextPlus {
+        text: "MY LISTS"
+        font.family: "lucia grande"
+        font.pixelSize: 10
+        textColor: "#630"
     }
 
     Rectangle {

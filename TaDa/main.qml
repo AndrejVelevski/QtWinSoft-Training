@@ -17,26 +17,22 @@ Window {
         height: parent.height
         anchors.centerIn: parent
 
-        ColumnLayout {
-            spacing: 0
+        StackView {
+            id: stack
+            initialItem: homePage
             anchors.fill: parent
-
-            Item { height: 25 }
-
-            Header { }
-
-            Item { height: 30 }
-
-            Splitter { }
-
-            Item { height: 10 }
-
-            Content {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-
-            Item { height: 25 }
         }
+    }
+
+    Component {
+        id: homePage
+
+        HomePage { }
+    }
+
+    Component {
+        id: newListPage
+
+        NewListPage { }
     }
 }

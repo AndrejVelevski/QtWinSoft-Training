@@ -2,10 +2,18 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>res/tada.png</file>
-        <file>Header.qml</file>
-        <file>Content.qml</file>
+        <file>HomeHeader.qml</file>
+        <file>HomeContent.qml</file>
         <file>ListDelegateIncomplete.qml</file>
         <file>Splitter.qml</file>
         <file>ListDelegateComplete.qml</file>
+        <file>HomePage.qml</file>
+        <file>NewListPage.qml</file>
+        <file>NewListHeader.qml</file>
+        <file>NewListContent.qml</file>
+        <file>res/create-list.png</file>
+        <file>HyperlinkRed.qml</file>
+        <file>HyperlinkBlue.qml</file>
+        <file>TextPlus.qml</file>
     </qresource>
 </RCC>

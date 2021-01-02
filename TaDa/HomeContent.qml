@@ -19,22 +19,13 @@ ColumnLayout {
         id: flow
         Layout.fillWidth: true
 
-        Rectangle {
-            width: childrenRect.width
-            height: childrenRect.height
-            color: "transparent"
-            visible: modelIncomplete.count > 0
-
-            TextEdit {
-                text: "Completed Lists: "
-                font.family: "lucia grande"
-                font.pixelSize: 10
-                font.bold: true
-                color: "#666"
-
-                readOnly: true
-                selectByMouse: true
-            }
+        TextPlus {
+            visible: modelComplete.count > 0
+            text: "Completed Lists: "
+            font.family: "lucia grande"
+            font.pixelSize: 10
+            font.bold: true
+            textColor: "#666"
         }
 
         Repeater {
@@ -73,6 +64,7 @@ ColumnLayout {
                     id: l.id,
                     name: l.name,
                     numTasks: l.numTasks,
+                    numCompletedTasks: l.numCompletedTasks,
                     sharing: l.sharing
                 });
             }
