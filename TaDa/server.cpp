@@ -66,65 +66,74 @@ Server::~Server()
     mDB.close();
 }
 
-void Server::requestCompleteLists()
+void Server::requestLists()
 {
-    QSqlQuery q = exec("SELECT * FROM List WHERE numTasks = numCompletedTasks AND numTasks > 0");
-    QVariantList list;
+    QSqlQuery q = exec("SELECT * FROM List");
+    QVariantList lists;
 
     while (q.next())
     {
-        int id = q.value(0).toInt();
-        QString name = q.value(1).toString();
-        QString description = q.value(2).toString();
-        int numTasks = q.value(3).toInt();
-        int numCompletedTasks = q.value(4).toInt();
-        bool sharing = q.value(5).toBool();
-
         QVariantMap map;
-        map.insert("id", id);
-        map.insert("name", name);
-        map.insert("description", description);
-        map.insert("numTasks", numTasks);
-        map.insert("numCompletedTasks", numCompletedTasks);
-        map.insert("sharing", sharing);
-        list.append(map);
+        map.insert("id", q.value(0).toInt());
+        map.insert("name", q.value(1).toString());
+        map.insert("description", q.value(2).toString());
+        map.insert("numTasks", q.value(3).toInt());
+        map.insert("numCompletedTasks", q.value(4).toInt());
+        map.insert("sharing", q.value(5).toBool());
+        lists.append(map);
     }
 
-    emit getCompleteLists(list);
+    emit getLists(lists);
 }
 
-void Server::requestIncompleteLists()
+void Server::requestTasks(int listid)
 {
-    QSqlQuery q = exec("SELECT * FROM List WHERE numTasks != numCompletedTasks OR numTasks = 0");
-    QVariantList list;
+    QSqlQuery q1 = exec(QString("SELECT name, description FROM List WHERE id = %1").arg(listid));
+    QSqlQuery q2 = exec(QString("SELECT * FROM Task WHERE list = %1").arg(listid));
+    QVariantMap list;
+    QVariantList tasks;
 
-    while (q.next())
+    q1.next();
+    list.insert("name", q1.value(0).toString());
+    list.insert("description", q1.value(1).toString());
+
+    while (q2.next())
     {
-        int id = q.value(0).toInt();
-        QString name = q.value(1).toString();
-        QString description = q.value(2).toString();
-        int numTasks = q.value(3).toInt();
-        int numCompletedTasks = q.value(4).toInt();
-        bool sharing = q.value(5).toBool();
-
         QVariantMap map;
-        map.insert("id", id);
-        map.insert("name", name);
-        map.insert("description", description);
-        map.insert("numTasks", numTasks);
-        map.insert("numCompletedTasks", numCompletedTasks);
-        map.insert("sharing", sharing);
-        list.append(map);
+        map.insert("id", q2.value(0).toInt());
+        map.insert("name", q2.value(2).toString());
+        map.insert("completed", q2.value(3).toBool());
+        tasks.append(map);
     }
 
-    emit getIncompleteLists(list);
+    emit getTasks(list, tasks);
 }
+
+
 
 void Server::createNewList(const QString& name)
 {
     exec(QString("INSERT INTO List(name) VALUES(\"%1\")").arg(name));
+    QSqlQuery q = exec("SELECT MAX(id) FROM List");
 
-    emit newListCreated();
+    q.next();
+
+    emit newListCreated(q.value(0).toInt());
+}
+
+void Server::createNewTask(int listid, const QString& name)
+{
+    exec(QString("INSERT INTO Task(list, name) VALUES(%1, \"%2\")").arg(listid).arg(name));
+    QSqlQuery q = exec("SELECT MAX(id), name FROM Task");
+
+    q.next();
+
+    emit newTaskCreated(q.value(0).toInt(), q.value(1).toString());
+}
+
+void Server::setTaskCompleted(int taskid, bool completed)
+{
+    exec(QString("UPDATE Task SET completed = %1 WHERE id = %2").arg(completed).arg(taskid));
 }
 
 QSqlQuery Server::exec(const QString& query)

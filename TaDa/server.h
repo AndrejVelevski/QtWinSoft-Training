@@ -17,9 +17,11 @@ public:
     ~Server();
 
 public slots:
-    void requestCompleteLists();
-    void requestIncompleteLists();
+    void requestLists();
+    void requestTasks(int listid);
     void createNewList(const QString& name);
+    void createNewTask(int listid, const QString& name);
+    void setTaskCompleted(int taskid, bool completed);
 
 private:
     QSqlQuery exec(const QString& query);
@@ -27,9 +29,10 @@ private:
     QSqlDatabase mDB;
 
 signals:
-    void getCompleteLists(QVariantList list);
-    void getIncompleteLists(QVariantList list);
-    void newListCreated();
+    void getLists(QVariantList lists);
+    void getTasks(QVariantMap list, QVariantList tasks);
+    void newListCreated(int id);
+    void newTaskCreated(int id, const QString& name);
 };
 
 #endif // SERVER_H

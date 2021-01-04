@@ -6,12 +6,13 @@ Item {
     width: childrenRect.width
     height: childrenRect.height + 9
 
-    RowLayout {
-        spacing: 0
+    Flow {
+        width: root.width - 300
 
         Rectangle {
-            width: text.height + 8
-            height: text.height
+            id: dot
+            width: 24
+            height: 24
             color: "transparent"
 
             Rectangle {
@@ -22,7 +23,7 @@ Item {
                 color: "#666"
 
                 function calculateSize() {
-                    return Math.max(4, Math.min(12, numTasks+4));
+                    return Math.max(4, Math.min(12, numTasks-numCompletedTasks+4));
                 }
             }
         }
@@ -32,9 +33,20 @@ Item {
             text: name
             font.pixelSize: 16
             font.bold: true
+
+            textWidth: {
+                if (textWidth > parent.width - dot.width-1)
+                    return parent.width - dot.width-1
+            }
+
+            onClicked:  {
+                root.listid = id;
+                stack.replace(tasksPage);
+            }
         }
 
         TextPlus {
+            id: info
             visible: numTasks > 0
 
             text: `— <b>${numTasks-numCompletedTasks} left</b>${sharing?" (Sharing)":""}`
@@ -42,7 +54,8 @@ Item {
             font.family: "lucia grande"
             font.pixelSize: 10
             textColor: "#666"
-            anchors.leftMargin: 4
+            leftPadding: 4
+            topPadding: 4
         }
     }
 }

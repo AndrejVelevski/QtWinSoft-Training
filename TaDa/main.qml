@@ -7,21 +7,14 @@ Window {
     id: root
     visible: true
     title: qsTr("Ta-da")
-    width: 640
-    height: 480
-    minimumWidth: 410
-    minimumHeight: 300
+    width: 1024
+    height: 768
+    property int listid: -1
 
-    Item {
-        width: 3*parent.width/4
-        height: parent.height
-        anchors.centerIn: parent
-
-        StackView {
-            id: stack
-            initialItem: homePage
-            anchors.fill: parent
-        }
+    StackView {
+        id: stack
+        initialItem: homePage
+        anchors.fill: parent
     }
 
     Component {
@@ -34,5 +27,11 @@ Window {
         id: newListPage
 
         NewListPage { }
+    }
+
+    Component {
+        id: tasksPage
+
+        TasksPage { }
     }
 }

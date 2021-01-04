@@ -2,8 +2,9 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
-ColumnLayout {
-    spacing: 0
+Column {
+    height: childrenRect.height
+    width: root.width - 300
 
     TextPlus {
         text: "MY LISTS"
@@ -13,7 +14,7 @@ ColumnLayout {
     }
 
     Rectangle {
-        Layout.fillWidth: true
+        width: parent.width
         height: 1
         color: "#ccc"
     }

@@ -1,23 +1,43 @@
 import QtQuick 2.12
-import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
 
-ColumnLayout {
-    spacing: 0
+ScrollView {
 
-    Item { height: 25 }
+    Row {
+        Item {
+            width: 150
+            height: 1
+        }
 
-    HomeHeader { }
+        Column {
+            width: childrenRect.width
+            height: childrenRect.height
 
-    Item { height: 30 }
+            Item {
+                width: 1
+                height: 25
+            }
 
-    Splitter { }
+            HomeHeader { }
 
-    Item { height: 10 }
+            Item {
+                width: 1
+                height: 30
+            }
 
-    HomeContent {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+            Splitter { }
+
+            Item {
+                width: 1
+                height: 10
+            }
+
+            HomeContent { }
+
+            Item {
+                width: 1
+                height: 25
+            }
+        }
     }
-
-    Item { height: 25 }
 }

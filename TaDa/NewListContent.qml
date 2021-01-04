@@ -2,12 +2,26 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
-ColumnLayout {
-    spacing: 0
+Column {
+    width: childrenRect.width
+    height: childrenRect.height
+
+    function createNewList(name) {
+        name = name.trim();
+        if (name.length > 0)
+            server.createNewList(name);
+    }
+
+    Connections {
+        target: server
+
+        function onNewListCreated(id) {
+            root.listid = id;
+            stack.replace(tasksPage);
+        }
+    }
 
     RowLayout {
-        spacing: 0
-
         TextPlus {
             text: "Name your new list"
             font.family: "helvetica"
@@ -27,8 +41,7 @@ ColumnLayout {
     }
 
     Rectangle {
-        Layout.fillWidth: true
-        Layout.bottomMargin: 10
+        width: 640
         height: childrenRect.height
         border.width: 1
         radius: 3
@@ -45,17 +58,21 @@ ColumnLayout {
             selectByMouse: true
 
             onAccepted: createNewList(text)
+
+            MouseArea {
+                z: -1
+                anchors.fill: parent
+                cursorShape: Qt.IBeamCursor
+            }
         }
     }
 
-    function createNewList(name) {
-        name = name.trim();
-        if (name.length > 0)
-            server.createNewList(name);
+    Item {
+        width: 1
+        height: 20
     }
 
     RowLayout {
-
         Image {
             source: "qrc:/res/create-list.png"
 
@@ -64,14 +81,6 @@ ColumnLayout {
                 cursorShape: Qt.PointingHandCursor
 
                 onClicked: createNewList(textbox.text)
-
-                Connections {
-                    target: server
-
-                    function onNewListCreated() {
-                        stack.replace(homePage);
-                    }
-                }
             }
         }
 

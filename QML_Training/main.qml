@@ -1,45 +1,42 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.9
+import QtQuick.Window 2.2
 
-Window
-{
-    id: root
+Window {
+    visible: true
     width: 640
     height: 480
-    visible: true
-    title: qsTr("Test")
+    title: qsTr("Hello World")
 
-    Flickable {
-        id: flick
+    Rectangle {
+        color: "antiquewhite"
+        width: childrenRect.width
+        height: childrenRect.height
 
-        width: 300; height: 200;
-        contentWidth: edit.paintedWidth
-        contentHeight: edit.paintedHeight
-        clip: true
+        Column {
+            Repeater {
+                id: list
+                clip: true
 
-        function ensureVisible(r)
-        {
-            if (contentX >= r.x)
-                contentX = r.x;
-            else if (contentX+width <= r.x+r.width)
-                contentX = r.x+r.width-width;
-            if (contentY >= r.y)
-                contentY = r.y;
-            else if (contentY+height <= r.y+r.height)
-                contentY = r.y+r.height-height;
-        }
+                model: ListModel {
+                    id: model
 
-        TextEdit {
-            id: edit
-            width: flick.width
-            height: flick.height
-            focus: true
-            wrapMode: TextEdit.Wrap
-            onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
+                    ListElement {
+                        name: "Bill Smith"
+                        number: "555 3264"
+                    }
+                    ListElement {
+                        name: "John Brown"
+                        number: "555 8426"
+                    }
+                    ListElement {
+                        name: "Sam Wise"
+                        number: "555 0473"
+                    }
+                }
+                delegate: Text {
+                    text: name + ": " + number
+                }
+            }
         }
     }
-
 }
-
-
-

@@ -15,5 +15,9 @@
         <file>HyperlinkRed.qml</file>
         <file>HyperlinkBlue.qml</file>
         <file>TextPlus.qml</file>
+        <file>TasksPage.qml</file>
+        <file>TasksHeader.qml</file>
+        <file>TasksContent.qml</file>
+        <file>res/create-task.png</file>
     </qresource>
 </RCC>

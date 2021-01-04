@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 ScrollView {
-
     Row {
         Item {
             width: 150
@@ -18,14 +17,14 @@ ScrollView {
                 height: 25
             }
 
-            NewListHeader { }
+            TasksHeader { }
 
             Item {
                 width: 1
                 height: 30
             }
 
-            NewListContent { }
+            TasksContent { }
 
             Item {
                 width: 1

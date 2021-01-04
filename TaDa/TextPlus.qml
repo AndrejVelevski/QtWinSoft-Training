@@ -22,6 +22,8 @@ Rectangle {
     property alias rightPadding: text.rightPadding
     property alias topPadding: text.topPadding
     property alias bottomPadding: text.bottomPadding
+    property alias textWidth: text.width
+    property alias textHeight: text.height
 
     TextEdit {
         id: text
@@ -29,6 +31,7 @@ Rectangle {
         readOnly: true
         selectByMouse: true
         selectionColor: "#3390ff"
+        wrapMode: TextEdit.Wrap
 
         MouseArea {
             id: area
