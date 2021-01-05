@@ -6,6 +6,34 @@ Column {
     width: childrenRect.width
     height: childrenRect.height
 
+    Item {
+        width: 1
+        height: 35
+    }
+
+    Column {
+        height: childrenRect.height
+        width: root.width - 300
+
+        TextPlus {
+            text: "MY LISTS"
+            font.family: "lucia grande"
+            font.pixelSize: 10
+            textColor: "#630"
+        }
+
+        Rectangle {
+            width: parent.width
+            height: 1
+            color: "#ccc"
+        }
+    }
+
+    Item {
+        width: 1
+        height: 10
+    }
+
     Column {
         Repeater {
             id: list

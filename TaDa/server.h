@@ -22,6 +22,7 @@ public slots:
     void createNewList(const QString& name);
     void createNewTask(int listid, const QString& name);
     void setTaskCompleted(int taskid, bool completed);
+    void deleteList(int listid);
 
 private:
     QSqlQuery exec(const QString& query);
@@ -33,6 +34,7 @@ signals:
     void getTasks(QVariantMap list, QVariantList tasks);
     void newListCreated(int id);
     void newTaskCreated(int id, const QString& name);
+    void listDeleted();
 };
 
 #endif // SERVER_H

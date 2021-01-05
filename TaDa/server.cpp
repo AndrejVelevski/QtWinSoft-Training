@@ -54,6 +54,8 @@ Server::Server(QObject *parent) :
                   SET numCompletedTasks = numCompletedTasks - OLD.completed + NEW.completed \
                   WHERE id = OLD.list; \
               END;");
+
+        exec("PRAGMA foreign_keys=ON");
     }
     else
     {
@@ -134,6 +136,13 @@ void Server::createNewTask(int listid, const QString& name)
 void Server::setTaskCompleted(int taskid, bool completed)
 {
     exec(QString("UPDATE Task SET completed = %1 WHERE id = %2").arg(completed).arg(taskid));
+}
+
+void Server::deleteList(int listid)
+{
+    exec(QString("DELETE FROM List WHERE id = %1").arg(listid));
+
+    emit listDeleted();
 }
 
 QSqlQuery Server::exec(const QString& query)

@@ -54,34 +54,7 @@ Column {
         Repeater {
             id: sadsa
             model: ListModel { id: modelIncomplete }
-            delegate: Column {
-                Row {
-                    CheckBox {
-                        checked: completed
-
-                        onClicked: {
-                            server.setTaskCompleted(id, checked);
-                            modelComplete.append({
-                                id: id,
-                                completed: true,
-                                name: name
-                            });
-                            modelIncomplete.remove(index);
-                        }
-                    }
-
-                    TextPlus {
-                        text: name
-                        font.family: "lucida grande"
-                        font.pixelSize: 16
-                    }
-                }
-
-                Item {
-                    width: 1
-                    height: 8
-                }
-            }
+            delegate: TaskDelegateIncomplete { }
 
             clip: true
         }
@@ -173,6 +146,32 @@ Column {
                     c2.visible = false;
                 }
             }
+
+            TextPlus {
+                text: "  or  "
+                font.family: "lucida grande"
+                font.pixelSize: 11
+                textColor: "#999"
+                visible: hlDelete.visible
+            }
+
+            HyperlinkRed {
+                id: hlDelete
+                text: "Delete this list"
+                visible: modelIncomplete.count === 0
+
+                onClicked: {
+                    server.deleteList(root.listid);
+                }
+
+                Connections {
+                    target: server
+
+                    function onListDeleted() {
+                        stack.replace(homePage);
+                    }
+                }
+            }
         }
 
         Item {
@@ -184,37 +183,7 @@ Column {
     Column {
         Repeater {
             model: ListModel { id: modelComplete }
-            delegate: Column {
-                Row {
-                    CheckBox {
-                        checked: completed
-
-                        onClicked: {
-                            server.setTaskCompleted(id, checked);
-
-                            modelIncomplete.append({
-                                id: id,
-                                completed: false,
-                                name: name
-                            });
-                            modelComplete.remove(index);
-                        }
-                    }
-
-                    TextPlus {
-                        text: name
-                        font.family: "lucida grande"
-                        font.pixelSize: 10
-                        textColor: "#999"
-                        topPadding: 4
-                    }
-                }
-
-                Item {
-                    width: 1
-                    height: 8
-                }
-            }
+            delegate: TaskDelegateComplete { }
 
             clip: true
         }

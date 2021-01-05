@@ -19,5 +19,9 @@
         <file>TasksHeader.qml</file>
         <file>TasksContent.qml</file>
         <file>res/create-task.png</file>
+        <file>CheckBoxPlus.qml</file>
+        <file>res/checkbox.png</file>
+        <file>TaskDelegateComplete.qml</file>
+        <file>TaskDelegateIncomplete.qml</file>
     </qresource>
 </RCC>

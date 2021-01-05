@@ -20,18 +20,6 @@ ScrollView {
 
             HomeHeader { }
 
-            Item {
-                width: 1
-                height: 30
-            }
-
-            Splitter { }
-
-            Item {
-                width: 1
-                height: 10
-            }
-
             HomeContent { }
 
             Item {
