@@ -40,31 +40,10 @@ Column {
         }
     }
 
-    Rectangle {
-        width: 640
-        height: childrenRect.height
-        border.width: 1
-        radius: 3
-
-        TextInput {
-            id: textbox
-            width: parent.width
-            font.family: "arial"
-            font.pixelSize: 20
-            font.bold: true
-            color: "black"
-            selectionColor: "#3390ff"
-            padding: 5
-            selectByMouse: true
-
-            onAccepted: createNewList(text)
-
-            MouseArea {
-                z: -1
-                anchors.fill: parent
-                cursorShape: Qt.IBeamCursor
-            }
-        }
+    TextInputPlus {
+        id: textbox
+        font.pixelSize: 20
+        font.bold: true
     }
 
     Item {

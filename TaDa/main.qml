@@ -35,4 +35,10 @@ Window {
 
         TasksPage { }
     }
+
+    Component {
+        id: editListPage
+
+        EditListPage { }
+    }
 }

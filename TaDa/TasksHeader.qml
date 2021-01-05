@@ -46,6 +46,10 @@ Item {
 
             HyperlinkRed {
                 text: "Edit"
+
+                onClicked: {
+                    stack.replace(editListPage);
+                }
             }
 
             TextPlus {
@@ -67,7 +71,7 @@ Item {
             }
 
             HyperlinkRed {
-                text: "Share"
+                text: "Sharing"
             }
         }
     }

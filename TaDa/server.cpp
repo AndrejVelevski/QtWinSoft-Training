@@ -145,6 +145,26 @@ void Server::deleteList(int listid)
     emit listDeleted();
 }
 
+void Server::editList(int listid, const QString& name, const QString& description, QVariantList& tasks)
+{
+    exec(QString("UPDATE List SET name = \"%1\", description = \"%2\" WHERE id = %3").arg(name).arg(description).arg(listid));
+
+    for (QVariant& v : tasks)
+    {
+        QMap map = v.toMap();
+        int id = map["id"].toInt();
+        QString name = map["name"].toString();
+        bool shouldDelete = map["shouldDelete"].toBool();
+
+        if (shouldDelete)
+            exec(QString("DELETE FROM Task WHERE id = %1").arg(id));
+        else
+            exec(QString("UPDATE Task SET name = \"%1\" WHERE id = %2").arg(name).arg(id));
+    }
+
+    emit listEdited();
+}
+
 QSqlQuery Server::exec(const QString& query)
 {
     QSqlQuery q;

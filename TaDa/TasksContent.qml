@@ -34,6 +34,8 @@ Column {
         font.pixelSize: 24
         font.bold: true
         bottomPadding: 5
+
+        textWidth: root.width - 300
     }
 
     TextPlus {
@@ -43,6 +45,8 @@ Column {
         font.pixelSize: 12
         bottomPadding: 5
         textColor: "#333"
+
+        textWidth: root.width - 300
     }
 
     Item {
@@ -52,7 +56,6 @@ Column {
 
     Column {
         Repeater {
-            id: sadsa
             model: ListModel { id: modelIncomplete }
             delegate: TaskDelegateIncomplete { }
 

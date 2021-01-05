@@ -35,8 +35,8 @@ Item {
             font.bold: true
 
             textWidth: {
-                if (textWidth > parent.width - dot.width-1)
-                    return parent.width - dot.width-1
+                if (textWidth > parent.width - info.width - dot.width - 8)
+                    return parent.width - info.width - dot.width - 8
             }
 
             onClicked:  {
@@ -55,7 +55,7 @@ Item {
             font.pixelSize: 10
             textColor: "#666"
             leftPadding: 4
-            topPadding: 4
+            topPadding: text.height - height - 16
         }
     }
 }

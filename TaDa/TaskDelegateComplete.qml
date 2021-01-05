@@ -25,6 +25,8 @@ Column {
             textColor: "#999"
             leftPadding: 8
             topPadding: 6
+
+            textWidth: root.width - 300
         }
     }
 

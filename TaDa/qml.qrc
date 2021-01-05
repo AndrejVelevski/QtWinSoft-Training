@@ -23,5 +23,12 @@
         <file>res/checkbox.png</file>
         <file>TaskDelegateComplete.qml</file>
         <file>TaskDelegateIncomplete.qml</file>
+        <file>EditListContent.qml</file>
+        <file>EditListPage.qml</file>
+        <file>TextInputPlus.qml</file>
+        <file>res/delete.png</file>
+        <file>TaskEditDelegate.qml</file>
+        <file>TextEditPlus.qml</file>
+        <file>ButtonPlus.qml</file>
     </qresource>
 </RCC>

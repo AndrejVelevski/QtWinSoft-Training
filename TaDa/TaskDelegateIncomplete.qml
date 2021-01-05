@@ -22,6 +22,8 @@ Column {
             font.family: "lucida grande"
             font.pixelSize: 16
             leftPadding: 8
+
+            textWidth: root.width - 300
         }
     }
 
