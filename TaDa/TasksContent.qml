@@ -73,31 +73,16 @@ Column {
             id: c1
             visible: false
 
-            Rectangle {
+            TextInputPlus {
+                id: textbox
                 width: 440
-                height: childrenRect.height
-                border.width: 1
-                radius: 3
+                font.family: "arial"
+                font.pixelSize: 14
+                padding: 2
 
-                TextInput {
-                    id: textbox
-                    width: parent.width
-                    font.family: "arial"
-                    font.pixelSize: 14
-                    selectionColor: "#3390ff"
-                    selectByMouse: true
-                    padding: 2
-
-                    onAccepted: {
-                        createNewTask(text);
-                        text = "";
-                    }
-
-                    MouseArea {
-                        z: -1
-                        anchors.fill: parent
-                        cursorShape: Qt.IBeamCursor
-                    }
+                onAccepted: {
+                    createNewTask(text);
+                    text = "";
                 }
             }
 
