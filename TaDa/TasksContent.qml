@@ -4,6 +4,9 @@ import QtQuick.Controls 2.12
 Column {
     width: childrenRect.width
     height: childrenRect.height
+    property alias modelIncomplete: modelIncomplete
+    property alias newTask: newTask
+    property alias completedTasks: completedTasks
 
     function createNewTask(name) {
         name = name.trim();
@@ -15,10 +18,11 @@ Column {
         target: server
 
         function onNewTaskCreated(id, name) {
-            modelIncomplete.append({
+            modelIncomplete.model.append({
                 id: id,
                 completed: false,
-                name: name
+                name: name,
+                reordering: false
             });
         }
     }
@@ -35,7 +39,10 @@ Column {
         font.bold: true
         bottomPadding: 5
 
-        textWidth: root.width - 300
+        textWidth: {
+            if (textWidth > root.width-300)
+                return root.width - 300;
+        }
     }
 
     TextPlus {
@@ -46,7 +53,10 @@ Column {
         bottomPadding: 5
         textColor: "#333"
 
-        textWidth: root.width - 300
+        textWidth: {
+            if (textWidth > root.width-300)
+                return root.width - 300;
+        }
     }
 
     Item {
@@ -54,16 +64,24 @@ Column {
         height: 15
     }
 
+    DelegateModel {
+        id: modelIncomplete
+
+        model: ListModel { }
+        delegate: TaskDelegateIncomplete { }
+    }
+
     Column {
         Repeater {
-            model: ListModel { id: modelIncomplete }
-            delegate: TaskDelegateIncomplete { }
+            model: modelIncomplete
 
             clip: true
         }
     }
 
     Column {
+        id: newTask
+
         Item {
             width: 1
             height: 8
@@ -169,6 +187,7 @@ Column {
     }
 
     Column {
+        id: completedTasks
         Repeater {
             model: ListModel { id: modelComplete }
             delegate: TaskDelegateComplete { }
@@ -190,16 +209,17 @@ Column {
                 {
                     modelComplete.append({
                         id: t.id,
-                        completed: t.completed,
+                        completed: true,
                         name: t.name
                     });
                 }
                 else
                 {
-                    modelIncomplete.append({
+                    modelIncomplete.model.append({
                         id: t.id,
-                        completed: t.completed,
-                        name: t.name
+                        completed: false,
+                        name: t.name,
+                        reordering: false
                     });
                 }
             }

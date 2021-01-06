@@ -54,8 +54,8 @@ Item {
             font.family: "lucia grande"
             font.pixelSize: 10
             textColor: "#666"
-            leftPadding: 4
-            topPadding: text.height - height - 16
+            leftPadding: 8
+            topPadding: text.height - height - 14
         }
     }
 }

@@ -11,7 +11,6 @@ Window {
     height: 768
     property int listid: -1
 
-
     StackView {
         id: stack
         initialItem: homePage

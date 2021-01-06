@@ -59,19 +59,43 @@ Item {
                 textColor: "#666"
             }
 
-            HyperlinkRed {
-                text: "Reorder"
-            }
+            Row {
+                HyperlinkRed {
+                    text : reordering?"I'm done reordering":"Reorder"
+                    backgroundColor: reordering?"yellow":"transparent"
+                    property bool reordering: false
 
-            TextPlus {
-                text: "  |  "
-                font.family: "lucida grande"
-                font.pixelSize: 10
-                textColor: "#666"
-            }
+                    onClicked: {
+                        reordering = !reordering;
+                        scrollTasksPage.reorder(reordering);
+                    }
+                }
 
-            HyperlinkRed {
-                text: "Sharing"
+                TextPlus {
+                    text: "  |  "
+                    font.family: "lucida grande"
+                    font.pixelSize: 10
+                    textColor: "#666"
+                }
+
+                HyperlinkRed {
+                    id: sharing
+                    property bool shared: false
+                    text: shared?"Sharing":"Not Sharing"
+
+                    onClicked: {
+                        shared = !shared;
+                        server.setSharing(root.listid, shared);
+                    }
+                }
+
+                Connections {
+                    target: server
+
+                    function onGetTasks(list, tasks) {
+                        sharing.shared = list.sharing;
+                    }
+                }
             }
         }
     }

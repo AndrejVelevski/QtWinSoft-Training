@@ -30,5 +30,6 @@
         <file>TaskEditDelegate.qml</file>
         <file>TextEditPlus.qml</file>
         <file>ButtonPlus.qml</file>
+        <file>res/drag.png</file>
     </qresource>
 </RCC>

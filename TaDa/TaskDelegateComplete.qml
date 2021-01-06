@@ -9,10 +9,21 @@ Column {
             onClicked: {
                 server.setTaskCompleted(id, checked);
 
-                modelIncomplete.append({
+                let i;
+
+                for (i=0;i<modelIncomplete.model.count;++i)
+                {
+                    let item = modelIncomplete.model.get(i);
+
+                    if (item.id > id)
+                        break;
+                }
+
+                modelIncomplete.model.insert(i, {
                     id: id,
                     completed: false,
-                    name: name
+                    name: name,
+                    reordering: false
                 });
                 modelComplete.remove(index);
             }
@@ -26,7 +37,10 @@ Column {
             leftPadding: 8
             topPadding: 6
 
-            textWidth: root.width - 300
+            textWidth: {
+                if (textWidth > root.width-300)
+                    return root.width - 300;
+            }
         }
     }
 

@@ -90,7 +90,7 @@ void Server::requestLists()
 
 void Server::requestTasks(int listid)
 {
-    QSqlQuery q1 = exec(QString("SELECT name, description FROM List WHERE id = %1").arg(listid));
+    QSqlQuery q1 = exec(QString("SELECT name, description, sharing FROM List WHERE id = %1").arg(listid));
     QSqlQuery q2 = exec(QString("SELECT * FROM Task WHERE list = %1").arg(listid));
     QVariantMap list;
     QVariantList tasks;
@@ -98,6 +98,7 @@ void Server::requestTasks(int listid)
     q1.next();
     list.insert("name", q1.value(0).toString());
     list.insert("description", q1.value(1).toString());
+    list.insert("sharing", q1.value(2).toBool());
 
     while (q2.next())
     {
@@ -163,6 +164,18 @@ void Server::editList(int listid, const QString& name, const QString& descriptio
     }
 
     emit listEdited();
+}
+
+void Server::swapTasks(int from, int to)
+{
+    exec(QString("UPDATE Task SET id = -1 WHERE id = %1").arg(from));
+    exec(QString("UPDATE Task SET id = %1 WHERE id = %2").arg(from).arg(to));
+    exec(QString("UPDATE Task SET id = %1 WHERE id = -1").arg(to));
+}
+
+void Server::setSharing(int listid, bool sharing)
+{
+    exec(QString("UPDATE List SET sharing = %1 WHERE id = %2").arg(sharing).arg(listid));
 }
 
 QSqlQuery Server::exec(const QString& query)

@@ -24,6 +24,8 @@ public slots:
     void setTaskCompleted(int taskid, bool completed);
     void deleteList(int listid);
     void editList(int listid, const QString& name, const QString&description, QVariantList& tasks);
+    void swapTasks(int from, int to);
+    void setSharing(int listid, bool sharing);
 
 private:
     QSqlQuery exec(const QString& query);
