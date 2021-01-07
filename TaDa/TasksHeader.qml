@@ -57,13 +57,17 @@ Item {
                 font.family: "lucida grande"
                 font.pixelSize: 10
                 textColor: "#666"
+                visible: linkReorder.visible
             }
 
             Row {
                 HyperlinkRed {
+                    id: linkReorder
                     text : reordering?"I'm done reordering":"Reorder"
                     backgroundColor: reordering?"yellow":"transparent"
                     property bool reordering: false
+
+                    visible: content.modelIncomplete.model.count > 1
 
                     onClicked: {
                         reordering = !reordering;

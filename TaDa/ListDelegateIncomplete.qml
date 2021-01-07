@@ -55,7 +55,7 @@ Item {
             font.pixelSize: 10
             textColor: "#666"
             leftPadding: 8
-            topPadding: text.height - height - 14
+            topPadding: text.height - 14
         }
     }
 }

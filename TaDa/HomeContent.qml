@@ -3,9 +3,6 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 Column {
-    width: childrenRect.width
-    height: childrenRect.height
-
     Item {
         width: 1
         height: 35
@@ -93,7 +90,8 @@ Column {
                 }
             }
 
-            modelComplete.get(modelComplete.count-1).last = true;
+            if (modelComplete.count > 0)
+                modelComplete.get(modelComplete.count-1).last = true;
         }
     }
 }
